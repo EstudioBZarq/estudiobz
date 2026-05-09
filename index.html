@@ -9,775 +9,402 @@
 <meta property="og:description" content="Estudio de arquitectura y desarrollos. Buenos Aires.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
 <style>
-/* ── Reset ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { font-size: 16px; scroll-behavior: smooth; }
+html { font-size: 16px; }
+body { font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #1A1A1A; overflow-x: hidden; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #D4D4CE; }
 
-/* ── Tokens ── */
 :root {
-  --black:    #0A0A0A;
-  --ink:      #1A1A1A;
-  --white:    #FFFFFF;
-  --offwhite: #F7F6F2;
-  --g100:     #EAEAE6;
-  --g200:     #D4D4CE;
-  --g400:     #888880;
-  --g500:     #5A5A55;
-  --accent:   #BFA37C;
-  --font:     'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --black: #0A0A0A; --ink: #1A1A1A; --white: #FFFFFF;
+  --offwhite: #F7F6F2; --g100: #EAEAE6; --g200: #D4D4CE;
+  --g400: #888880; --g500: #5A5A55;
+  --sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --serif: 'Cormorant Garamond', Georgia, serif;
 }
 
-body {
-  font-family: var(--font);
-  background: var(--white);
-  color: var(--ink);
-  overflow-x: hidden;
-}
-
-/* ── Page system ── */
 .page { display: none; }
 .page.active { display: block; }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: var(--g200); }
-
-/* ── Nav ── */
-#nav {
-  position: fixed; top: 0; left: 0; right: 0; height: 72px; z-index: 200;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px;
-  transition: background 350ms, border-color 350ms;
-}
-#nav.scrolled {
-  background: var(--white);
-  border-bottom: 1px solid var(--g100);
-}
+/* NAV */
+#nav { position: fixed; top: 0; left: 0; right: 0; height: 72px; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; transition: background 350ms, border-color 350ms; }
+#nav.solid { background: var(--white); border-bottom: 1px solid var(--g100); }
 #nav .logo { line-height: 0; cursor: pointer; }
-#nav .logo img { height: 26px; display: block; transition: opacity 200ms; }
-#nav .links { display: flex; gap: 36px; align-items: center; }
-#nav .links a {
-  font-size: 12px; font-weight: 500; letter-spacing: 0.07em;
-  text-transform: uppercase; text-decoration: none;
-  color: rgba(255,255,255,0.85);
-  transition: color 350ms;
-  cursor: pointer;
-}
-#nav.scrolled .links a { color: var(--ink); }
-#nav .cta-btn {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
-  text-transform: uppercase; text-decoration: none;
-  padding: 9px 22px; cursor: pointer;
-  color: var(--black); background: var(--white);
-  transition: background 350ms, color 350ms;
-  border: none; font-family: var(--font);
-}
-#nav.scrolled .cta-btn { color: var(--white); background: var(--black); }
+#nav .logo img { height: 26px; display: block; }
+#nav .nav-links { display: flex; gap: 36px; align-items: center; }
+#nav .nav-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,0.85); cursor: pointer; transition: color 350ms; }
+#nav.solid .nav-links a { color: var(--ink); }
+#nav .nav-cta { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 9px 22px; cursor: pointer; border: none; color: var(--black); background: var(--white); transition: background 350ms, color 350ms; }
+#nav.solid .nav-cta { color: var(--white); background: var(--black); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); transition: background 350ms; }
+#nav.solid .hamburger span { background: var(--black); }
+.mob-menu { display: none; position: fixed; inset: 0; z-index: 300; background: var(--black); flex-direction: column; align-items: center; justify-content: center; gap: 32px; }
+.mob-menu.open { display: flex; }
+.mob-menu a { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; color: var(--white); text-decoration: none; cursor: pointer; }
+.mob-close { position: absolute; top: 24px; right: 32px; background: none; border: none; color: var(--white); font-size: 32px; cursor: pointer; line-height: 1; }
 
-/* ── Mobile nav ── */
-.hamburger {
-  display: none; flex-direction: column; gap: 5px; cursor: pointer;
-  background: none; border: none; padding: 4px;
-}
-.hamburger span {
-  display: block; width: 22px; height: 1.5px;
-  background: var(--white); transition: background 350ms;
-}
-#nav.scrolled .hamburger span { background: var(--black); }
-.mobile-menu {
-  display: none; position: fixed; inset: 0; z-index: 300;
-  background: var(--black); flex-direction: column;
-  align-items: center; justify-content: center; gap: 32px;
-}
-.mobile-menu.open { display: flex; }
-.mobile-menu a {
-  font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
-  color: var(--white); text-decoration: none; cursor: pointer;
-}
-.mobile-menu .close-btn {
-  position: absolute; top: 24px; right: 32px;
-  background: none; border: none; color: var(--white);
-  font-size: 28px; cursor: pointer; line-height: 1;
-}
+/* LABELS */
+.lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g400); margin-bottom: 16px; display: block; }
+.lbl.lt { color: rgba(255,255,255,0.4); }
 
-/* ── Section label ── */
-.label {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--g400);
-  margin-bottom: 12px; display: block;
-}
-.label.light { color: rgba(255,255,255,0.4); }
-
-/* ── Buttons ── */
-.btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--font); font-size: 12px; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 14px 32px; text-decoration: none; cursor: pointer;
-  border: none; transition: background 200ms, color 200ms;
-}
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 10px; font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px 32px; text-decoration: none; cursor: pointer; border: none; }
 .btn-dark { color: var(--white); background: var(--black); }
-.btn-dark:hover { background: #222; }
-.btn-outline { color: var(--white); background: transparent; border: 1px solid rgba(255,255,255,0.5); }
-.btn-outline:hover { background: rgba(255,255,255,0.1); }
+.btn-outline { color: var(--white); background: transparent; border: 1px solid rgba(255,255,255,0.45); }
 .btn-light { color: var(--black); background: var(--white); }
-.btn-light:hover { background: var(--offwhite); }
+.arrowlnk { font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: none; color: var(--black); }
+.arrowlnk::after { content: '→'; transition: transform 200ms; }
+.arrowlnk:hover::after { transform: translateX(4px); }
+.arrowlnk.lt { color: rgba(255,255,255,0.7); }
 
-/* ── Arrow link ── */
-.arrow-link {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--black); text-decoration: none;
-  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
-  border: none; background: none; font-family: var(--font);
-}
-.arrow-link::after { content: '→'; transition: transform 200ms; }
-.arrow-link:hover::after { transform: translateX(4px); }
-
-/* ── Hero ── */
-.hero {
-  min-height: 100vh; background: var(--black);
-  display: flex; align-items: center;
-  padding: 0 80px; position: relative; overflow: hidden;
-}
-.hero-bg {
-  position: absolute; inset: 0;
-  background-size: cover; background-position: center;
-  opacity: 0.12; filter: grayscale(40%);
-}
-.hero-eyebrow {
-  position: absolute; left: 28px; top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center center;
-  font-size: 9px; font-weight: 600; letter-spacing: 0.22em;
-  text-transform: uppercase; color: rgba(255,255,255,0.25);
-  white-space: nowrap;
-}
-.hero-content { max-width: 1280px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
-.hero h1 {
-  font-size: clamp(48px, 7vw, 88px); font-weight: 800;
-  color: var(--white); letter-spacing: -0.03em; line-height: 1.0;
-  margin-bottom: 24px; max-width: 720px;
-}
-.hero p {
-  font-size: 16px; color: rgba(255,255,255,0.55);
-  line-height: 1.7; max-width: 440px; margin-bottom: 40px;
-}
-
-/* ── Sections ── */
-section { padding: 96px 80px; }
+/* LAYOUT */
+.sec { padding: 80px 80px; }
+.sec-sm { padding: 64px 80px; }
 .max { max-width: 1280px; margin: 0 auto; }
 
-/* ── Project card ── */
-.proj-card { cursor: pointer; }
-.proj-img {
-  width: 100%; height: 260px; overflow: hidden;
-  background: linear-gradient(135deg, #CACACA, #AAAAAA);
-  position: relative;
-}
-.proj-img img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform 450ms ease;
-}
-.proj-card:hover .proj-img img { transform: scale(1.04); }
-.proj-info {
-  padding: 14px 0 20px;
-  border-bottom: 1px solid var(--g100);
-}
-.proj-meta {
-  display: flex; justify-content: space-between; margin-bottom: 4px;
-}
-.proj-cat { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g400); }
-.proj-year { font-size: 11px; color: var(--g400); }
-.proj-title { font-size: 16px; font-weight: 700; color: var(--black); letter-spacing: -0.01em; }
+/* HERO */
+.hero { position: relative; min-height: 100vh; overflow: hidden; display: flex; align-items: flex-end; background: var(--black); }
+.hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.22; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 100%); }
+.hero-eyebrow { position: absolute; left: 24px; top: 50%; transform: translateY(-50%) rotate(-90deg); font-size: 9px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.22); white-space: nowrap; }
+.hero-scroll { position: absolute; bottom: 40px; right: 80px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.hero-content { position: relative; z-index: 1; padding: 0 80px 80px; max-width: 1280px; margin: 0 auto; width: 100%; }
+.hero h1 { font-size: clamp(48px, 7vw, 88px); font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.0; margin-bottom: 24px; max-width: 700px; }
+.hero p { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.7; max-width: 420px; margin-bottom: 40px; }
 
-/* ── About strip ── */
-.about-strip {
-  background: var(--black); padding: 80px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-  align-items: center;
-}
-.about-img-wrap { position: relative; }
-.about-img-wrap img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; filter: grayscale(100%); }
+/* SERVICES */
+.svc-row { display: grid; grid-template-columns: 72px 220px 1fr; gap: 32px; align-items: start; padding: 40px 0; border-top: 1px solid var(--g100); }
+.svc-num { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--g400); padding-top: 2px; }
+.svc-cat { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g400); margin-bottom: 8px; }
+.svc-title { font-size: 18px; font-weight: 700; color: var(--black); letter-spacing: -0.01em; }
+.svc-desc { font-size: 14px; color: var(--g500); line-height: 1.75; margin-bottom: 16px; }
+.svc-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.svc-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--g500); border: 1px solid var(--g200); padding: 5px 12px; }
 
-/* ── Services strip ── */
-.service-row {
-  padding: 48px 0;
-  border-top: 1px solid var(--g100);
-  display: grid; grid-template-columns: 80px 1fr 2fr; gap: 32px;
-  align-items: start;
-}
-.service-num { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--g400); padding-top: 4px; }
-.service-title { font-size: 18px; font-weight: 700; color: var(--black); letter-spacing: -0.01em; }
-.service-cat { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g400); margin-bottom: 8px; }
-.service-desc { font-size: 14px; color: var(--g500); line-height: 1.7; margin-bottom: 16px; }
-.service-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.service-tag {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--g500);
-  border: 1px solid var(--g200); padding: 5px 12px;
-}
+/* PROJECT CARD */
+.pcard { cursor: pointer; }
+.pcard-img { width: 100%; height: 260px; overflow: hidden; background: #CACACA; }
+.pcard-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 450ms ease; }
+.pcard:hover .pcard-img img { transform: scale(1.04); }
+.pcard-info { padding: 14px 0 20px; border-bottom: 1px solid var(--g100); }
+.pcard-meta { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.pcard-cat { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g400); }
+.pcard-yr { font-size: 11px; color: var(--g400); }
+.pcard-title { font-size: 16px; font-weight: 700; color: var(--black); letter-spacing: -0.01em; }
+.proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 32px; }
 
-/* ── Stats ── */
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+/* ABOUT */
+.about-strip { background: var(--black); display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+.about-img { width: 100%; height: 100%; min-height: 480px; object-fit: cover; display: block; filter: grayscale(100%); }
+.about-copy { padding: 80px; }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
 .stat { border-left: 2px solid var(--g200); padding-left: 20px; }
-.stat-num { font-size: 40px; font-weight: 800; color: var(--black); letter-spacing: -0.03em; line-height: 1; }
-.stat-label { font-size: 12px; color: var(--g500); margin-top: 6px; line-height: 1.4; }
+.stat-n { font-size: 40px; font-weight: 800; color: var(--black); letter-spacing: -0.03em; line-height: 1; }
+.stat-l { font-size: 12px; color: var(--g500); margin-top: 6px; line-height: 1.4; }
 
-/* ── Contact form ── */
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
-.field { display: flex; flex-direction: column; gap: 6px; }
-.field label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g400); }
-.field input, .field select, .field textarea {
-  font-family: var(--font); font-size: 14px; color: var(--ink);
-  background: var(--white); border: 1px solid var(--g200);
-  padding: 11px 14px; outline: none; border-radius: 0;
-  transition: border-color 200ms;
-}
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--black); }
-.field textarea { resize: vertical; min-height: 100px; }
-.contact-info { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
-.contact-row { display: flex; gap: 16px; align-items: baseline; }
-.contact-key { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g400); width: 80px; flex-shrink: 0; }
-.contact-val { font-size: 14px; color: var(--ink); }
+/* PARTNERS */
+.partner-card { display: flex; gap: 32px; }
+.partner-img { width: 120px; height: 160px; object-fit: cover; object-position: top; flex-shrink: 0; filter: grayscale(100%); display: block; }
+.partners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; }
 
-/* ── Footer ── */
-footer {
-  background: var(--black); padding: 64px 80px 40px;
-}
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-.footer-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 16px; }
-.footer-links { display: flex; flex-direction: column; gap: 10px; }
-.footer-links a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; cursor: pointer; transition: color 200ms; }
-.footer-links a:hover { color: rgba(255,255,255,0.9); }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 24px; display: flex; justify-content: space-between; align-items: center;
-}
-.footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+/* FICHA */
+.ficha-table { display: flex; flex-direction: column; }
+.ficha-row { display: flex; gap: 24px; padding: 14px 0; border-top: 1px solid var(--g100); }
+.ficha-row:last-child { border-bottom: 1px solid var(--g100); }
+.ficha-k { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--g400); width: 100px; flex-shrink: 0; padding-top: 1px; }
+.ficha-v { font-size: 14px; color: var(--ink); line-height: 1.5; }
 
-/* ── Project detail ── */
-.project-hero {
-  min-height: 70vh; position: relative;
-  display: flex; align-items: flex-end;
-  background: var(--black);
-}
-.project-hero-img {
-  position: absolute; inset: 0;
-  background-size: cover; background-position: center;
-}
-.project-hero-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 60%);
-}
-.project-hero-content {
-  position: relative; z-index: 1; padding: 60px 80px;
-  max-width: 1280px; margin: 0 auto; width: 100%;
-}
-.project-breadcrumb { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
-.project-title { font-size: clamp(40px, 6vw, 80px); font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.0; }
+/* PROJECT HERO */
+.proj-hero { position: relative; height: 100vh; min-height: 600px; overflow: hidden; display: flex; align-items: flex-end; }
+.proj-hero img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.proj-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.65) 100%); }
+.proj-hero-txt { position: relative; z-index: 1; padding: 0 80px 72px; }
+.proj-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 12px; }
+.proj-title-h1 { font-size: clamp(48px, 6vw, 88px); font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.0; }
 
-/* ── Ficha ── */
-.ficha-strip { background: var(--offwhite); padding: 40px 80px; border-top: 1px solid var(--g100); }
-.ficha-grid { display: flex; flex-wrap: wrap; gap: 0; max-width: 1280px; margin: 0 auto; }
-.ficha-item { padding: 0 40px 0 0; min-width: 160px; }
-.ficha-item:not(:last-child) { border-right: 1px solid var(--g200); margin-right: 40px; }
-.ficha-key { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--g400); margin-bottom: 6px; }
-.ficha-val { font-size: 13px; font-weight: 500; color: var(--black); }
+/* GALLERY */
+.g-full { width: 100%; overflow: hidden; cursor: pointer; }
+.g-full img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.g-grid { display: grid; gap: 2px; }
+.g-cell { overflow: hidden; cursor: pointer; }
+.g-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 500ms ease; }
+.g-cell:hover img { transform: scale(1.03); }
 
-/* ── Gallery ── */
-.gallery-section { padding: 0; }
-.gallery-gap { display: grid; gap: 3px; }
-.gallery-img-wrap { overflow: hidden; cursor: pointer; }
-.gallery-img-wrap img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform 500ms ease;
-}
-.gallery-img-wrap:hover img { transform: scale(1.03); }
+/* OBRA */
+.obra-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 180px; gap: 4px; }
+.obra-fig { margin: 0; position: relative; overflow: hidden; background: var(--g100); }
+.obra-fig img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.obra-cap { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 16px; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.95); }
 
-/* ── Obra grid ── */
-.obra-grid {
-  display: grid; grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 180px; gap: 4px;
-}
-.obra-figure { margin: 0; position: relative; overflow: hidden; background: var(--g100); }
-.obra-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.obra-caption {
-  position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 16px;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-  font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase; color: rgba(255,255,255,0.95);
-}
+/* BROCHURE / CTA */
+.brochure-strip { background: var(--offwhite); padding: 64px 80px; border-top: 1px solid var(--g100); }
+.brochure-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+.cta-dark { background: var(--black); padding: 80px; }
+.cta-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
 
-/* ── Lightbox ── */
-.lightbox {
-  display: none; position: fixed; inset: 0; z-index: 500;
-  background: rgba(0,0,0,0.96); align-items: center; justify-content: center;
-}
-.lightbox.open { display: flex; }
-.lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; display: block; }
-.lightbox-close {
-  position: absolute; top: 24px; right: 32px;
-  background: none; border: none; color: rgba(255,255,255,0.6);
-  font-size: 28px; cursor: pointer; line-height: 1;
-}
-.lightbox-nav {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  background: none; border: none; color: rgba(255,255,255,0.5);
-  font-size: 32px; cursor: pointer; padding: 16px;
-  transition: color 200ms;
-}
-.lightbox-nav:hover { color: var(--white); }
-.lightbox-nav.prev { left: 16px; }
-.lightbox-nav.next { right: 16px; }
-.lightbox-caption {
-  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-  font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
-  text-transform: uppercase; color: rgba(255,255,255,0.4);
-  white-space: nowrap;
-}
-
-/* ── Proyecto filter ── */
+/* FILTER */
 .filter-bar { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 40px; }
-.filter-chip {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.14em;
-  text-transform: uppercase; padding: 8px 20px; cursor: pointer;
-  border: 1px solid var(--g200); background: var(--white); color: var(--g500);
-  transition: all 150ms; font-family: var(--font);
-}
-.filter-chip.active { background: var(--black); color: var(--white); border-color: var(--black); }
-
-/* ── Proyectos grid ── */
-.proyectos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 32px; }
+.chip { font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 8px 20px; cursor: pointer; border: 1px solid var(--g200); background: var(--white); color: var(--g500); transition: all 150ms; }
+.chip.on { background: var(--black); color: var(--white); border-color: var(--black); }
 .hidden { display: none !important; }
 
-/* ── Brochure strip ── */
-.brochure-strip {
-  background: var(--offwhite); padding: 64px 80px;
-  border-top: 1px solid var(--g100);
-}
-.brochure-inner {
-  max-width: 1280px; margin: 0 auto;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
-}
+/* CONTACT */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g400); }
+.field input, .field select, .field textarea { font-family: var(--sans); font-size: 14px; color: var(--ink); background: var(--white); border: 1px solid var(--g200); padding: 11px 14px; outline: none; border-radius: 0; transition: border-color 200ms; appearance: none; -webkit-appearance: none; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--black); }
+.field textarea { resize: vertical; min-height: 100px; }
+.cinfo { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+.cinfo-row { display: flex; gap: 16px; align-items: baseline; }
+.cinfo-k { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g400); width: 80px; flex-shrink: 0; }
+.cinfo-v { font-size: 14px; color: var(--ink); }
 
-/* ── CTA contacto ── */
-.cta-contact {
-  background: var(--black); padding: 80px;
-}
-.cta-inner {
-  max-width: 1280px; margin: 0 auto;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
-}
+/* FOOTER */
+footer { background: var(--black); padding: 64px 80px 40px; }
+.foot-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.foot-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 16px; }
+.foot-links { display: flex; flex-direction: column; gap: 10px; }
+.foot-links a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; cursor: pointer; transition: color 150ms; }
+.foot-links a:hover { color: rgba(255,255,255,0.9); }
+.foot-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+.foot-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
 
-/* ── Estudio page ── */
-.partners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; }
-.partner-card { display: flex; gap: 32px; }
-.partner-photo { width: 120px; height: 160px; object-fit: cover; object-position: top; flex-shrink: 0; filter: grayscale(100%); }
+/* LIGHTBOX */
+.lb { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.94); align-items: center; justify-content: center; }
+.lb.open { display: flex; }
+.lb-img { max-width: 90vw; max-height: 85vh; object-fit: contain; display: block; }
+.lb-close { position: fixed; top: 24px; right: 24px; background: none; border: none; color: rgba(255,255,255,0.6); font-size: 24px; cursor: pointer; font-family: var(--sans); letter-spacing: 0.08em; }
+.lb-nav { position: fixed; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,0.55); font-size: 36px; cursor: pointer; padding: 16px; transition: color 150ms; }
+.lb-nav:hover { color: var(--white); }
+.lb-prev { left: 24px; }
+.lb-next { right: 24px; }
+.lb-info { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; justify-content: space-between; align-items: center; width: 90%; }
+.lb-label { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.12em; text-transform: uppercase; }
+.lb-count { font-size: 11px; color: rgba(255,255,255,0.4); }
 
-/* ── Success msg ── */
-.form-success { text-align: center; padding: 60px 20px; }
-.form-success-icon { font-size: 32px; margin-bottom: 16px; }
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  section { padding: 64px 24px; }
+/* RESPONSIVE */
+@media (max-width: 960px) {
   #nav { padding: 0 24px; }
-  #nav .links { display: none; }
+  #nav .nav-links { display: none; }
   .hamburger { display: flex; }
-  .hero { padding: 0 24px; min-height: 100svh; }
-  .hero h1 { font-size: clamp(36px, 9vw, 56px); }
-  .proyectos-grid { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
-  .about-strip { grid-template-columns: 1fr; padding: 48px 24px; gap: 40px; }
-  .form-grid { grid-template-columns: 1fr; gap: 40px; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .partners-grid { grid-template-columns: 1fr; }
-  .service-row { grid-template-columns: 1fr; gap: 12px; }
-  .project-hero-content { padding: 40px 24px; }
-  .ficha-strip { padding: 32px 24px; }
-  .brochure-strip { padding: 48px 24px; }
-  .cta-contact { padding: 60px 24px; }
+  .sec { padding: 56px 24px; }
+  .sec-sm { padding: 48px 24px; }
+  .hero-content { padding: 0 24px 64px; }
+  .hero-eyebrow, .hero-scroll { display: none; }
+  .about-strip { grid-template-columns: 1fr; }
+  .about-img { min-height: 300px; }
+  .about-copy { padding: 48px 24px; }
+  .svc-row { grid-template-columns: 1fr; gap: 12px; }
+  .proj-grid { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .brochure-strip, .cta-dark { padding: 48px 24px; }
+  .brochure-inner, .cta-inner { flex-direction: column; align-items: flex-start; }
+  .proj-hero-txt { padding: 0 24px 48px; }
   .obra-grid { grid-auto-rows: 120px; }
-  .ficha-item { margin-right: 20px; padding-right: 20px; min-width: 120px; }
+  .partners-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
-  .proyectos-grid { grid-template-columns: 1fr; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .cta-inner { flex-direction: column; align-items: flex-start; }
-  .brochure-inner { flex-direction: column; align-items: flex-start; }
+  .proj-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .foot-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- ── Navigation ── -->
+<!-- NAV -->
 <nav id="nav">
-  <div class="logo" onclick="navigate('home')">
+  <div class="logo" onclick="go('home')">
     <img id="nav-logo" src="assets/BZARQ_Logo_Blanco.png" alt="BZarq">
   </div>
-  <div class="links">
-    <a onclick="navigate('proyectos')">Proyectos</a>
-    <a onclick="navigate('servicios')">Servicios</a>
-    <a onclick="navigate('estudio')">Estudio</a>
-    <a onclick="navigate('contacto')">Contacto</a>
-    <button class="cta-btn" onclick="navigate('contacto')">Consultar</button>
+  <div class="nav-links">
+    <a onclick="go('proyectos')">Proyectos</a>
+    <a onclick="go('servicios')">Servicios</a>
+    <a onclick="go('estudio')">Estudio</a>
+    <a onclick="go('contacto')">Contacto</a>
+    <button class="nav-cta" onclick="go('contacto')">Consultar</button>
   </div>
-  <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menú">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- ── Mobile menu ── -->
-<div class="mobile-menu" id="mobile-menu">
-  <button class="close-btn" onclick="toggleMobileMenu()">×</button>
-  <a onclick="navigate('proyectos');toggleMobileMenu()">Proyectos</a>
-  <a onclick="navigate('servicios');toggleMobileMenu()">Servicios</a>
-  <a onclick="navigate('estudio');toggleMobileMenu()">Estudio</a>
-  <a onclick="navigate('contacto');toggleMobileMenu()">Contacto</a>
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <button class="mob-close" onclick="toggleMenu()">×</button>
+  <a onclick="go('proyectos');toggleMenu()">Proyectos</a>
+  <a onclick="go('servicios');toggleMenu()">Servicios</a>
+  <a onclick="go('estudio');toggleMenu()">Estudio</a>
+  <a onclick="go('contacto');toggleMenu()">Contacto</a>
 </div>
 
-<!-- ── Lightbox ── -->
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" onclick="closeLightbox()">×</button>
-  <button class="lightbox-nav prev" onclick="navLightbox(-1)">‹</button>
-  <img id="lightbox-img" src="" alt="">
-  <button class="lightbox-nav next" onclick="navLightbox(1)">›</button>
-  <div class="lightbox-caption" id="lightbox-caption"></div>
+<!-- LIGHTBOX -->
+<div class="lb" id="lb">
+  <button class="lb-close" onclick="lbClose()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)">←</button>
+  <img class="lb-img" id="lb-img" src="" alt="">
+  <button class="lb-nav lb-next" onclick="lbNav(1)">→</button>
+  <div class="lb-info">
+    <span class="lb-label" id="lb-label"></span>
+    <span class="lb-count" id="lb-count"></span>
+  </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- ── PAGE: HOME ── -->
-<!-- ══════════════════════════════════════ -->
+<!-- PAGE: HOME -->
 <div class="page active" id="page-home">
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-bg" style="background-image: url('assets/projects/mexico4111/01-fachada-general.jpg')"></div>
+  <div class="hero">
+    <div class="hero-bg" style="background-image:url('assets/projects/mexico4111/01-fachada-general.jpg')"></div>
+    <div class="hero-overlay"></div>
     <div class="hero-eyebrow">EST. — BUENOS AIRES</div>
+    <div class="hero-scroll">
+      <div style="width:1px;height:48px;background:rgba(255,255,255,0.3);"></div>
+      <span style="font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);writing-mode:vertical-rl;">Scroll</span>
+    </div>
     <div class="hero-content">
       <h1>Arquitectura y desarrollos<br>con visión<br>a largo plazo</h1>
       <p>Estudio de arquitectura y desarrollos inmobiliarios en Buenos Aires. Proyectamos y construimos con compromiso, calidad y rigor técnico.</p>
-      <button class="btn btn-outline" onclick="navigate('proyectos')">Ver proyectos →</button>
+      <button class="btn btn-outline" onclick="go('proyectos')">Ver proyectos →</button>
     </div>
-  </section>
+  </div>
 
-  <!-- Services strip -->
-  <section style="background: var(--white); padding: 80px 80px 64px;">
+  <section class="sec" style="background:var(--white);padding-bottom:56px;">
     <div class="max">
-      <div class="service-row" style="border-top: none; padding-top: 0;">
-        <div class="service-num">01</div>
-        <div>
-          <div class="service-cat">Desarrollos</div>
-          <div class="service-title">Desarrollos Inmobiliarios</div>
-        </div>
-        <div>
-          <p class="service-desc">Gestión integral de proyectos de propiedad horizontal: desde el análisis de factibilidad hasta la entrega de llaves. Controlamos cada etapa con foco en rentabilidad y calidad constructiva.</p>
-        </div>
+      <div class="svc-row" style="border-top:none;padding-top:0;">
+        <div class="svc-num">01</div>
+        <div><div class="svc-cat">Desarrollos</div><div class="svc-title">Desarrollos Inmobiliarios</div></div>
+        <p class="svc-desc">Gestión integral de proyectos de propiedad horizontal: desde el análisis de factibilidad hasta la entrega de llaves. Controlamos cada etapa con foco en rentabilidad y calidad constructiva.</p>
       </div>
-      <div class="service-row">
-        <div class="service-num">02</div>
-        <div>
-          <div class="service-cat">Arquitectura</div>
-          <div class="service-title">Arquitectura Comercial</div>
-        </div>
-        <div>
-          <p class="service-desc">Diseño y ejecución de locales, oficinas y espacios de trabajo. Entendemos que el espacio comercial es una herramienta de negocio: lo diseñamos para que funcione y venda.</p>
-        </div>
+      <div class="svc-row">
+        <div class="svc-num">02</div>
+        <div><div class="svc-cat">Arquitectura</div><div class="svc-title">Arquitectura Comercial</div></div>
+        <p class="svc-desc">Diseño y ejecución de locales, oficinas y espacios de trabajo. Entendemos que el espacio comercial es una herramienta de negocio: lo diseñamos para que funcione y venda.</p>
       </div>
-      <div class="service-row">
-        <div class="service-num">03</div>
-        <div>
-          <div class="service-cat">Interiors</div>
-          <div class="service-title">Remodelaciones de Interiores</div>
-        </div>
-        <div>
-          <p class="service-desc">Remodelaciones de alta complejidad en viviendas, departamentos y locales. Coordinamos todos los oficios con dirección técnica y estética integrada.</p>
-        </div>
+      <div class="svc-row">
+        <div class="svc-num">03</div>
+        <div><div class="svc-cat">Interiores</div><div class="svc-title">Remodelaciones de Interiores</div></div>
+        <p class="svc-desc">Remodelaciones de alta complejidad en viviendas, departamentos y locales. Coordinamos todos los oficios con dirección técnica y estética integrada.</p>
       </div>
     </div>
   </section>
 
-  <!-- Featured projects -->
-  <section style="background: var(--white); padding: 0 80px 96px;">
+  <section class="sec" style="background:var(--white);padding-top:0;">
     <div class="max">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;">
-        <div>
-          <span class="label">Proyectos</span>
-          <h2 style="font-size: clamp(28px, 3vw, 40px); font-weight: 700; color: var(--black); letter-spacing: -0.02em; line-height: 1.1;">Obras recientes</h2>
-        </div>
-        <button class="arrow-link" onclick="navigate('proyectos')">Ver todos</button>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;">
+        <div><span class="lbl">Proyectos</span><h2 style="font-size:clamp(28px,3vw,40px);font-weight:700;color:var(--black);letter-spacing:-0.02em;line-height:1.1;">Obras recientes</h2></div>
+        <button class="arrowlnk" onclick="go('proyectos')">Ver todos</button>
       </div>
-      <div class="proyectos-grid">
-        <!-- México 4111 -->
-        <div class="proj-card" onclick="showProject('mexico4111')">
-          <div class="proj-img"><img src="assets/projects/mexico4111/01-fachada-general.jpg" alt="México 4111" loading="lazy"></div>
-          <div class="proj-info">
-            <div class="proj-meta"><span class="proj-cat">Desarrollo inmobiliario</span><span class="proj-year">2025</span></div>
-            <div class="proj-title">México 4111</div>
-          </div>
-        </div>
-        <!-- Well Thomas -->
-        <div class="proj-card" onclick="showProject('wellthomas')">
-          <div class="proj-img"><img src="assets/projects/wellthomas/01-fachada.jpg" alt="Well Thomas" loading="lazy"></div>
-          <div class="proj-info">
-            <div class="proj-meta"><span class="proj-cat">Desarrollo inmobiliario</span><span class="proj-year">2025</span></div>
-            <div class="proj-title">Well Thomas</div>
-          </div>
-        </div>
-        <!-- Corrientes -->
-        <div class="proj-card" onclick="showProject('corrientes')">
-          <div class="proj-img"><img src="assets/projects/corrientes/01.jpg" alt="Reforma Av. Corrientes" loading="lazy"></div>
-          <div class="proj-info">
-            <div class="proj-meta"><span class="proj-cat">Remodelación de interiores</span><span class="proj-year">2024</span></div>
-            <div class="proj-title">Reforma Av. Corrientes</div>
-          </div>
-        </div>
+      <div class="proj-grid">
+        <div class="pcard" onclick="showProj('mexico4111')"><div class="pcard-img"><img src="assets/projects/mexico4111/01-fachada-general.jpg" alt="México 4111" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Desarrollo inmobiliario</span><span class="pcard-yr">2025</span></div><div class="pcard-title">México 4111</div></div></div>
+        <div class="pcard" onclick="showProj('wellthomas')"><div class="pcard-img"><img src="assets/projects/wellthomas/01-fachada.jpg" alt="Well Thomas" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Desarrollo inmobiliario</span><span class="pcard-yr">2025</span></div><div class="pcard-title">Well Thomas</div></div></div>
+        <div class="pcard" onclick="showProj('corrientes')"><div class="pcard-img"><img src="assets/projects/corrientes/01.jpg" alt="Reforma Av. Corrientes" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Remodelación de interiores</span><span class="pcard-yr">2024</span></div><div class="pcard-title">Reforma Av. Corrientes</div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- About strip -->
   <div class="about-strip">
-    <div class="about-img-wrap">
-      <img src="assets/bzarq-socios.jpg" alt="Equipo BZarq" loading="lazy">
-    </div>
-    <div>
-      <span class="label light">El estudio</span>
-      <h2 style="font-size: clamp(28px, 3vw, 44px); font-weight: 700; color: var(--white); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 20px;">Arquitectura con criterio técnico y visión comercial</h2>
-      <p style="font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 32px; max-width: 420px;">Fundado por Dylan Zajac y Sebastián Brzezinski, BZarq combina experiencia en dirección de obra con foco en resultados. Proyectamos y construimos con compromiso real.</p>
-      <button class="arrow-link" style="color: var(--white);" onclick="navigate('estudio')">Conocer el estudio</button>
+    <img class="about-img" src="assets/bzarq-socios.jpg" alt="Equipo BZarq" loading="lazy">
+    <div class="about-copy">
+      <span class="lbl lt">El estudio</span>
+      <h2 style="font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--white);letter-spacing:-0.02em;line-height:1.1;margin-bottom:20px;">Arquitectura con criterio técnico y visión comercial</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:32px;max-width:420px;">Fundado por Dylan Zajac y Sebastián Brzezinski, BZarq combina experiencia en dirección de obra con foco en resultados. Proyectamos y construimos con compromiso real.</p>
+      <button class="arrowlnk lt" onclick="go('estudio')">Conocer el estudio</button>
     </div>
   </div>
-
-  <!-- Contact -->
-  <div id="contact-home"></div>
-
-  <!-- Footer -->
-  <div id="footer-home"></div>
+  <div id="inc-c-home"></div><div id="inc-f-home"></div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- ── PAGE: PROYECTOS ── -->
-<!-- ══════════════════════════════════════ -->
+<!-- PAGE: PROYECTOS -->
 <div class="page" id="page-proyectos">
-  <div style="padding-top: 72px; background: var(--white);">
-    <section style="background: var(--black); padding: 80px 80px 72px;">
-      <div class="max">
-        <span class="label light">Nuestro trabajo</span>
-        <h1 style="font-size: clamp(40px, 6vw, 72px); font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.0; max-width: 560px;">Proyectos</h1>
+  <div style="padding-top:72px;">
+    <section style="background:var(--black);padding:80px 80px 72px;"><div class="max"><span class="lbl lt">Nuestro trabajo</span><h1 style="font-size:clamp(40px,6vw,72px);font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1.0;max-width:560px;">Proyectos</h1></div></section>
+    <section class="sec"><div class="max">
+      <div class="filter-bar">
+        <button class="chip on" onclick="filterP('todos',this)">Todos</button>
+        <button class="chip" onclick="filterP('desarrollo',this)">Desarrollos inmobiliarios</button>
+        <button class="chip" onclick="filterP('comercial',this)">Arquitectura comercial</button>
+        <button class="chip" onclick="filterP('remodelacion',this)">Remodelaciones</button>
       </div>
-    </section>
-    <section>
-      <div class="max">
-        <div class="filter-bar">
-          <button class="filter-chip active" onclick="filterProjects('todos', this)">Todos</button>
-          <button class="filter-chip" onclick="filterProjects('desarrollo', this)">Desarrollos inmobiliarios</button>
-          <button class="filter-chip" onclick="filterProjects('comercial', this)">Arquitectura comercial</button>
-          <button class="filter-chip" onclick="filterProjects('remodelacion', this)">Remodelaciones</button>
-        </div>
-        <div class="proyectos-grid" id="proyectos-grid">
-          <div class="proj-card" data-cat="desarrollo" onclick="showProject('mexico4111')">
-            <div class="proj-img"><img src="assets/projects/mexico4111/01-fachada-general.jpg" alt="México 4111" loading="lazy"></div>
-            <div class="proj-info">
-              <div class="proj-meta"><span class="proj-cat">Desarrollo inmobiliario</span><span class="proj-year">2025</span></div>
-              <div class="proj-title">México 4111</div>
-            </div>
-          </div>
-          <div class="proj-card" data-cat="desarrollo" onclick="showProject('wellthomas')">
-            <div class="proj-img"><img src="assets/projects/wellthomas/01-fachada.jpg" alt="Well Thomas" loading="lazy"></div>
-            <div class="proj-info">
-              <div class="proj-meta"><span class="proj-cat">Desarrollo inmobiliario</span><span class="proj-year">2025</span></div>
-              <div class="proj-title">Well Thomas</div>
-            </div>
-          </div>
-          <div class="proj-card" data-cat="remodelacion" onclick="showProject('corrientes')">
-            <div class="proj-img"><img src="assets/projects/corrientes/01.jpg" alt="Reforma Av. Corrientes" loading="lazy"></div>
-            <div class="proj-info">
-              <div class="proj-meta"><span class="proj-cat">Remodelación de interiores</span><span class="proj-year">2024</span></div>
-              <div class="proj-title">Reforma Av. Corrientes</div>
-            </div>
-          </div>
-        </div>
+      <div class="proj-grid" id="pgrid">
+        <div class="pcard" data-cat="desarrollo" onclick="showProj('mexico4111')"><div class="pcard-img"><img src="assets/projects/mexico4111/01-fachada-general.jpg" alt="México 4111" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Desarrollo inmobiliario</span><span class="pcard-yr">2025</span></div><div class="pcard-title">México 4111</div></div></div>
+        <div class="pcard" data-cat="desarrollo" onclick="showProj('wellthomas')"><div class="pcard-img"><img src="assets/projects/wellthomas/01-fachada.jpg" alt="Well Thomas" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Desarrollo inmobiliario</span><span class="pcard-yr">2025</span></div><div class="pcard-title">Well Thomas</div></div></div>
+        <div class="pcard" data-cat="remodelacion" onclick="showProj('corrientes')"><div class="pcard-img"><img src="assets/projects/corrientes/01.jpg" alt="Reforma Av. Corrientes" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Remodelación de interiores</span><span class="pcard-yr">2024</span></div><div class="pcard-title">Reforma Av. Corrientes</div></div></div>
       </div>
-    </section>
-    <div id="footer-proyectos"></div>
+    </div></section>
+    <div id="inc-f-proyectos"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- ── PAGE: ESTUDIO ── -->
-<!-- ══════════════════════════════════════ -->
+<!-- PAGE: ESTUDIO -->
 <div class="page" id="page-estudio">
-  <div style="padding-top: 72px;">
-    <!-- Hero -->
-    <section style="background: var(--black); padding: 96px 80px 80px; position: relative; overflow: hidden;">
-      <div style="position: absolute; inset: 0; background-image: url('assets/bzarq-socios.jpg'); background-size: cover; background-position: center top; filter: grayscale(100%); opacity: 0.18;"></div>
-      <div class="max" style="position: relative;">
-        <span class="label light">Quiénes somos</span>
-        <h1 style="font-size: clamp(40px, 5vw, 72px); font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.05; max-width: 640px; margin: 0 0 24px;">BZarq</h1>
-        <p style="font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 560px;">Estudio de arquitectura y desarrollos fundado por Dylan Zajac y Sebastián Brzezinski. Proyectamos y construimos con compromiso, calidad y visión a largo plazo.</p>
-      </div>
+  <div style="padding-top:72px;">
+    <section style="background:var(--black);padding:96px 80px 80px;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:url('assets/bzarq-socios.jpg');background-size:cover;background-position:center top;filter:grayscale(100%);opacity:0.18;"></div>
+      <div class="max" style="position:relative;"><span class="lbl lt">Quiénes somos</span><h1 style="font-size:clamp(40px,5vw,72px);font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1.05;max-width:640px;margin:0 0 24px;">BZarq</h1><p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:560px;">Estudio de arquitectura y desarrollos fundado por Dylan Zajac y Sebastián Brzezinski. Proyectamos y construimos con compromiso, calidad y visión a largo plazo.</p></div>
     </section>
-    <!-- Partners -->
-    <section style="background: var(--white);">
-      <div class="max">
-        <span class="label">El equipo</span>
-        <div class="partners-grid">
-          <div class="partner-card">
-            <img class="partner-photo" src="assets/dylan-zajac.jpg" alt="Dylan Zajac" loading="lazy">
-            <div>
-              <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g400); margin-bottom: 6px;">Socio fundador</div>
-              <div style="font-size: 22px; font-weight: 700; color: var(--black); margin-bottom: 12px; letter-spacing: -0.01em;">Dylan Zajac</div>
-              <p style="font-size: 14px; color: var(--g500); line-height: 1.65;">Arquitecto con amplia experiencia en obras nuevas y desarrollos de propiedad horizontal. Especializado en la coordinación técnica y dirección de obra.</p>
-            </div>
-          </div>
-          <div class="partner-card">
-            <img class="partner-photo" src="assets/sebastian-brzezinski.jpg" alt="Sebastián Brzezinski" loading="lazy">
-            <div>
-              <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g400); margin-bottom: 6px;">Socio fundador</div>
-              <div style="font-size: 22px; font-weight: 700; color: var(--black); margin-bottom: 12px; letter-spacing: -0.01em;">Sebastián Brzezinski</div>
-              <p style="font-size: 14px; color: var(--g500); line-height: 1.65;">Arquitecto con foco en diseño y gestión de proyectos. Especializado en remodelaciones de alta complejidad, locales comerciales y consultorios.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Stats -->
-    <section style="background: var(--offwhite); border-top: 1px solid var(--g200);">
-      <div class="max">
-        <div class="stats-grid">
-          <div class="stat"><div class="stat-num">+50</div><div class="stat-label">Proyectos realizados</div></div>
-          <div class="stat"><div class="stat-num">+10</div><div class="stat-label">Años de trayectoria</div></div>
-          <div class="stat"><div class="stat-num">+20</div><div class="stat-label">Obras en CABA y GBA</div></div>
-          <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Compromiso con el cliente</div></div>
-        </div>
-      </div>
-    </section>
-    <div id="contact-estudio"></div>
-    <div id="footer-estudio"></div>
+    <section class="sec" style="background:var(--white);"><div class="max"><span class="lbl">El equipo</span><div class="partners-grid">
+      <div class="partner-card"><img class="partner-img" src="assets/dylan-zajac.jpg" alt="Dylan Zajac" loading="lazy"><div><div style="font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--g400);margin-bottom:6px;">Socio fundador</div><div style="font-size:22px;font-weight:700;color:var(--black);margin-bottom:12px;letter-spacing:-0.01em;">Dylan Zajac</div><p style="font-size:14px;color:var(--g500);line-height:1.65;">Arquitecto con amplia experiencia en obras nuevas y desarrollos de propiedad horizontal. Especializado en la coordinación técnica y dirección de obra.</p></div></div>
+      <div class="partner-card"><img class="partner-img" src="assets/sebastian-brzezinski.jpg" alt="Sebastián Brzezinski" loading="lazy"><div><div style="font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--g400);margin-bottom:6px;">Socio fundador</div><div style="font-size:22px;font-weight:700;color:var(--black);margin-bottom:12px;letter-spacing:-0.01em;">Sebastián Brzezinski</div><p style="font-size:14px;color:var(--g500);line-height:1.65;">Arquitecto con foco en diseño y gestión de proyectos. Especializado en remodelaciones de alta complejidad, locales comerciales y consultorios.</p></div></div>
+    </div></div></section>
+    <section class="sec-sm" style="background:var(--offwhite);border-top:1px solid var(--g200);"><div class="max"><div class="stats-row"><div class="stat"><div class="stat-n">+50</div><div class="stat-l">Proyectos realizados</div></div><div class="stat"><div class="stat-n">+10</div><div class="stat-l">Años de trayectoria</div></div><div class="stat"><div class="stat-n">+20</div><div class="stat-l">Obras en CABA y GBA</div></div><div class="stat"><div class="stat-n">100%</div><div class="stat-l">Compromiso con el cliente</div></div></div></div></section>
+    <div id="inc-c-estudio"></div><div id="inc-f-estudio"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- ── PAGE: SERVICIOS ── -->
-<!-- ══════════════════════════════════════ -->
+<!-- PAGE: SERVICIOS -->
 <div class="page" id="page-servicios">
-  <div style="padding-top: 72px;">
-    <section style="background: var(--black); padding: 96px 80px;">
-      <div class="max">
-        <span class="label light">Nuestros servicios</span>
-        <h1 style="font-size: clamp(40px, 5vw, 72px); font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.05; max-width: 640px; margin: 0;">Qué hacemos</h1>
-      </div>
-    </section>
-    <section>
-      <div class="max">
-        <div class="service-row" style="border-top: 1px solid var(--g100);">
-          <div class="service-num">01</div>
-          <div>
-            <div class="service-cat">Desarrollos</div>
-            <div class="service-title">Desarrollos Inmobiliarios</div>
-          </div>
-          <div>
-            <p class="service-desc">Gestión integral de proyectos de propiedad horizontal: desde el análisis de factibilidad hasta la entrega de llaves. Controlamos cada etapa con foco en rentabilidad y calidad constructiva.</p>
-            <div class="service-tags">
-              <span class="service-tag">Análisis de factibilidad</span>
-              <span class="service-tag">Proyecto ejecutivo</span>
-              <span class="service-tag">Dirección de obra</span>
-              <span class="service-tag">Gestión de permisos</span>
-              <span class="service-tag">Coordinación de oficios</span>
-            </div>
-          </div>
-        </div>
-        <div class="service-row">
-          <div class="service-num">02</div>
-          <div>
-            <div class="service-cat">Arquitectura comercial</div>
-            <div class="service-title">Arquitectura Comercial</div>
-          </div>
-          <div>
-            <p class="service-desc">Diseño y ejecución de locales, oficinas y espacios de trabajo. Entendemos que el espacio comercial es una herramienta de negocio: lo diseñamos para que funcione y venda.</p>
-            <div class="service-tags">
-              <span class="service-tag">Locales comerciales</span>
-              <span class="service-tag">Oficinas</span>
-              <span class="service-tag">Consultorios</span>
-              <span class="service-tag">Restaurantes y bares</span>
-            </div>
-          </div>
-        </div>
-        <div class="service-row">
-          <div class="service-num">03</div>
-          <div>
-            <div class="service-cat">Remodelaciones</div>
-            <div class="service-title">Remodelaciones de Interiores</div>
-          </div>
-          <div>
-            <p class="service-desc">Remodelaciones de alta complejidad en viviendas, departamentos y locales. Coordinamos todos los oficios con dirección técnica y estética integrada.</p>
-            <div class="service-tags">
-              <span class="service-tag">Viviendas</span>
-              <span class="service-tag">Departamentos</span>
-              <span class="service-tag">Baños y cocinas</span>
-              <span class="service-tag">Reformas integrales</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div id="contact-servicios"></div>
-    <div id="footer-servicios"></div>
+  <div style="padding-top:72px;">
+    <section style="background:var(--black);padding:96px 80px;"><div class="max"><span class="lbl lt">Nuestros servicios</span><h1 style="font-size:clamp(40px,5vw,72px);font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1.05;max-width:640px;">Qué hacemos</h1></div></section>
+    <section class="sec" style="background:var(--white);"><div class="max">
+      <div class="svc-row"><div class="svc-num">01</div><div><div class="svc-cat">Desarrollos</div><div class="svc-title">Desarrollos Inmobiliarios</div></div><div><p class="svc-desc">Gestión integral de proyectos de propiedad horizontal: desde el análisis de factibilidad hasta la entrega de llaves. Controlamos cada etapa con foco en rentabilidad y calidad constructiva.</p><div class="svc-tags"><span class="svc-tag">Análisis de factibilidad</span><span class="svc-tag">Proyecto ejecutivo</span><span class="svc-tag">Dirección de obra</span><span class="svc-tag">Gestión de permisos</span><span class="svc-tag">Coordinación de oficios</span></div></div></div>
+      <div class="svc-row"><div class="svc-num">02</div><div><div class="svc-cat">Arquitectura comercial</div><div class="svc-title">Arquitectura Comercial</div></div><div><p class="svc-desc">Diseño y ejecución de locales, oficinas y espacios de trabajo. Entendemos que el espacio comercial es una herramienta de negocio: lo diseñamos para que funcione y venda.</p><div class="svc-tags"><span class="svc-tag">Locales comerciales</span><span class="svc-tag">Oficinas</span><span class="svc-tag">Consultorios</span><span class="svc-tag">Restaurantes y bares</span></div></div></div>
+      <div class="svc-row"><div class="svc-num">03</div><div><div class="svc-cat">Remodelaciones</div><div class="svc-title">Remodelaciones de Interiores</div></div><div><p class="svc-desc">Remodelaciones de alta complejidad en viviendas, departamentos y locales. Coordinamos todos los oficios con dirección técnica y estética integrada.</p><div class="svc-tags"><span class="svc-tag">Viviendas</span><span class="svc-tag">Departamentos</span><span class="svc-tag">Baños y cocinas</span><span class="svc-tag">Reformas integrales</span></div></div></div>
+    </div></section>
+    <div id="inc-c-servicios"></div><div id="inc-f-servicios"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- ── PAGE: CONTACTO ── -->
-<!-- ══════════════════════════════════════ -->
+<!-- PAGE: CONTACTO -->
 <div class="page" id="page-contacto">
-  <div style="padding-top: 72px;">
-    <div id="contact-contacto"></div>
-    <div id="footer-contacto"></div>
-  </div>
+  <div style="padding-top:72px;"><div id="inc-c-contacto"></div><div id="inc-f-contacto"></div></div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- ── PAGE: PROYECTO DETALLE ── -->
-<!-- ══════════════════════════════════════ -->
+<!-- PAGE: PROYECTO DETALLE -->
 <div class="page" id="page-proyecto">
-  <div id="proyecto-content"></div>
+  <div id="proj-content"></div>
 </div>
 
-<!-- ── Templates reutilizables (hidden) ── -->
+<!-- TEMPLATES -->
 <template id="tpl-contact">
-  <section style="background: var(--offwhite);">
-    <div class="max form-grid">
+  <section class="sec" style="background:var(--offwhite);">
+    <div class="max contact-grid">
       <div>
-        <span class="label">Contacto</span>
-        <h2 style="font-size: clamp(28px, 3vw, 44px); font-weight: 700; color: var(--black); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 20px;">Hablemos de tu proyecto</h2>
-        <p style="font-size: 15px; color: var(--g500); line-height: 1.7; margin-bottom: 40px; max-width: 380px;">Contanos sobre tu idea. Analizamos cada proyecto en detalle y te brindamos una consulta inicial sin cargo.</p>
-        <div class="contact-info">
-          <div class="contact-row"><span class="contact-key">Email</span><span class="contact-val">hola@estudiobz.com.ar</span></div>
-          <div class="contact-row"><span class="contact-key">Teléfono</span><span class="contact-val">+54 9 11 0000-0000</span></div>
-          <div class="contact-row"><span class="contact-key">Ubicación</span><span class="contact-val">Buenos Aires, Argentina</span></div>
+        <span class="lbl">Contacto</span>
+        <h2 style="font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--black);letter-spacing:-0.02em;line-height:1.1;margin-bottom:20px;">Hablemos de tu proyecto</h2>
+        <p style="font-size:15px;color:var(--g500);line-height:1.7;max-width:380px;margin-bottom:40px;">Contanos sobre tu idea. Analizamos cada proyecto en detalle y te brindamos una consulta inicial sin cargo.</p>
+        <div class="cinfo">
+          <div class="cinfo-row"><span class="cinfo-k">Email</span><span class="cinfo-v">hola@estudiobz.com.ar</span></div>
+          <div class="cinfo-row"><span class="cinfo-k">Teléfono</span><span class="cinfo-v">+54 9 11 0000-0000</span></div>
+          <div class="cinfo-row"><span class="cinfo-k">Ubicación</span><span class="cinfo-v">Buenos Aires, Argentina</span></div>
         </div>
       </div>
-      <form class="bzarq-form" style="display: flex; flex-direction: column; gap: 16px;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div class="field"><label>Nombre</label><input type="text" placeholder="Juan García" name="nombre" required></div>
-          <div class="field"><label>Email</label><input type="email" placeholder="juan@ejemplo.com" name="email" required></div>
+      <!-- *** REEMPLAZÁ "FORMSPREE_ID" con tu ID de formspree.io *** -->
+      <form class="bzform" action="https://formspree.io/f/mbdwplbl" method="POST" style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="field"><label>Nombre</label><input type="text" name="nombre" placeholder="Juan García" required></div>
+          <div class="field"><label>Email</label><input type="email" name="email" placeholder="juan@ejemplo.com" required></div>
         </div>
-        <div class="field">
-          <label>Tipo de proyecto</label>
-          <select name="tipo">
-            <option value="">Seleccionar...</option>
-            <option>Obra nueva</option>
-            <option>Remodelación</option>
-            <option>Proyecto</option>
-            <option>Consultoría</option>
-          </select>
+        <div class="field"><label>Tipo de proyecto</label>
+          <select name="tipo"><option value="">Seleccionar...</option><option>Obra nueva</option><option>Remodelación</option><option>Proyecto</option><option>Consultoría</option></select>
         </div>
-        <div class="field"><label>Consulta</label><textarea placeholder="Contanos sobre tu proyecto..." name="mensaje" required></textarea></div>
-        <button type="submit" class="btn btn-dark" style="align-self: flex-start;">Enviar consulta</button>
+        <div class="field"><label>Consulta</label><textarea name="mensaje" placeholder="Contanos sobre tu proyecto..." required></textarea></div>
+        <input type="hidden" name="_subject" value="Nueva consulta — BZarq">
+        <button type="submit" class="btn btn-dark" style="align-self:flex-start;">Enviar consulta</button>
       </form>
     </div>
   </section>
@@ -785,483 +412,155 @@ footer {
 
 <template id="tpl-footer">
   <footer>
-    <div class="footer-grid">
+    <div class="foot-grid">
       <div>
-        <img src="assets/BZARQ_Logo_Blanco.png" alt="BZarq" style="height: 22px; display: block; margin-bottom: 20px;">
-        <p style="font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; max-width: 240px;">Estudio de arquitectura y desarrollos. Buenos Aires, Argentina.</p>
-        <p style="font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 12px;">hola@estudiobz.com.ar</p>
+        <img src="assets/BZARQ_Logo_Blanco.png" alt="BZarq" style="height:22px;display:block;margin-bottom:20px;">
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;max-width:240px;">Estudio de arquitectura y desarrollos. Buenos Aires, Argentina.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:12px;">hola@estudiobz.com.ar</p>
       </div>
-      <div>
-        <div class="footer-label">Navegación</div>
-        <div class="footer-links">
-          <a onclick="navigate('home')">Inicio</a>
-          <a onclick="navigate('proyectos')">Proyectos</a>
-          <a onclick="navigate('estudio')">Estudio</a>
-          <a onclick="navigate('servicios')">Servicios</a>
-          <a onclick="navigate('contacto')">Contacto</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-label">Servicios</div>
-        <div class="footer-links">
-          <a onclick="navigate('servicios')">Desarrollos inmobiliarios</a>
-          <a onclick="navigate('servicios')">Arquitectura comercial</a>
-          <a onclick="navigate('servicios')">Remodelaciones</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-label">Contacto</div>
-        <div class="footer-links">
-          <a href="mailto:hola@estudiobz.com.ar">hola@estudiobz.com.ar</a>
-          <a>Buenos Aires, Argentina</a>
-          <a onclick="navigate('contacto')">Formulario de consulta</a>
-        </div>
-      </div>
+      <div><div class="foot-lbl">Navegación</div><div class="foot-links"><a onclick="go('home')">Inicio</a><a onclick="go('proyectos')">Proyectos</a><a onclick="go('estudio')">Estudio</a><a onclick="go('servicios')">Servicios</a><a onclick="go('contacto')">Contacto</a></div></div>
+      <div><div class="foot-lbl">Servicios</div><div class="foot-links"><a onclick="go('servicios')">Desarrollos inmobiliarios</a><a onclick="go('servicios')">Arquitectura comercial</a><a onclick="go('servicios')">Remodelaciones</a></div></div>
+      <div><div class="foot-lbl">Contacto</div><div class="foot-links"><a href="mailto:hola@estudiobz.com.ar">hola@estudiobz.com.ar</a><a onclick="go('contacto')">Formulario de consulta</a></div></div>
     </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">© 2025 BZarq. Todos los derechos reservados.</span>
-      <span class="footer-copy">Zajac · Brzezinski</span>
-    </div>
+    <div class="foot-bottom"><span class="foot-copy">© 2025 BZarq. Todos los derechos reservados.</span><span class="foot-copy">Zajac · Brzezinski</span></div>
   </footer>
 </template>
 
 <script>
-// ── State ──────────────────────────────────────────────────────────────────
-let currentPage = 'home';
-let lightboxImages = [];
-let lightboxIndex = 0;
-
-// ── Projects data ──────────────────────────────────────────────────────────
-const PROJECTS = {
+const PROJS = {
   mexico4111: {
-    title: 'México 4111',
-    subtitle: 'Almagro, CABA',
-    breadcrumb: 'PROYECTOS / DESARROLLO INMOBILIARIO',
-    heroBg: 'assets/projects/mexico4111/01-fachada-general.jpg',
-    ficha: [
-      { key: 'Proyecto', val: 'México 4111' },
-      { key: 'Ubicación', val: 'México 4111, Almagro, CABA' },
-      { key: 'Tipología', val: 'Edificio de PH' },
-      { key: 'Etapa', val: 'Demolición finalizada · Planos aprobados' },
-      { key: 'Estudio', val: 'BZarq — Zajac · Brzezinski' },
-    ],
-    gallery: [
-      { src: 'assets/projects/mexico4111/01-fachada-general.jpg', label: 'Fachada general' },
-      { src: 'assets/projects/mexico4111/02-fachada-peatonal.jpg', label: 'Vista peatonal' },
-      { src: 'assets/projects/mexico4111/03-hall-ingreso.jpg', label: 'Hall de ingreso' },
-      { src: 'assets/projects/mexico4111/04-interior-2amb-toillet.jpg', label: 'Interior 2 amb. + toilette' },
-      { src: 'assets/projects/mexico4111/05-interior-2amb-toillet-b.jpg', label: 'Interior 2 amb. + toilette B' },
-      { src: 'assets/projects/mexico4111/06-interior-2amb-1.jpg', label: 'Interior 2 ambientes' },
-      { src: 'assets/projects/mexico4111/07-interior-2amb-2.jpg', label: 'Interior 2 ambientes II' },
-      { src: 'assets/projects/mexico4111/08-dormitorio.jpg', label: 'Dormitorio' },
-      { src: 'assets/projects/mexico4111/09-terraza.jpg', label: 'Terraza' },
-    ],
-    memoria: 'Edificio de propiedad horizontal de 8 pisos en el barrio de Almagro. El proyecto busca maximizar la eficiencia constructiva sin resignar calidad de vida: tipologías de 2 ambientes con toilette adicional, terrazas en último nivel y hall de ingreso representativo. La demolición del inmueble existente está finalizada y los planos fueron aprobados por el GCBA.',
-    obra: [
-      { src: 'assets/projects/mexico4111/obra/01-pre-demolicion-patio.jpg', caption: 'Pre-demolición · Patio interno', span: '4,2' },
-      { src: 'assets/projects/mexico4111/obra/03-demolicion-excavadora.jpg', caption: 'Demolición · Excavadora en obra', span: '8,2' },
-      { src: 'assets/projects/mexico4111/obra/02-demolicion-fachada.jpg', caption: 'Demolición · Frente sobre calle México', span: '6,1' },
-      { src: 'assets/projects/mexico4111/obra/04-demolicion-vista-superior.jpg', caption: 'Demolición · Vista superior', span: '6,1' },
-      { src: 'assets/projects/mexico4111/obra/05-terreno-limpio.jpg', caption: 'Terreno limpio · Listo para iniciar', span: '12,2' },
-    ],
-    obraSubtitle: 'Demolición finalizada · Planos aprobados',
-    obraNote: 'Próximas etapas: excavación, submuración y arranque de estructura.',
-    brochure: 'assets/projects/mexico4111/brochure.pdf',
-    ctaTitle: 'Consultanos sobre México 4111',
+    title:'México 4111', eyebrow:'Edificio · Almagro, CABA',
+    hero:'assets/projects/mexico4111/01-fachada-general.jpg',
+    ficha:[{k:'Proyecto',v:'México 4111'},{k:'Ubicación',v:'México 4111, Almagro, CABA'},{k:'Tipología',v:'Edificio de propiedad horizontal'},{k:'Etapa',v:'Demolición finalizada · Planos aprobados'},{k:'Estudio',v:'BZarq — Zajac · Brzezinski'}],
+    quote:'"Un edificio que dialoga con el barrio y jerarquiza cada espacio interior."',
+    desc:['México 4111 es un desarrollo de propiedad horizontal ubicado en el barrio de Almagro, Capital Federal. El proyecto integra una volumetría contemporánea de hormigón visto con balcones generosos y vegetación en fachada, generando un diálogo sensible con la escala del barrio.','Los interiores priorizan la amplitud, la luz natural y los materiales nobles — madera, hormigón y piedra — con terminaciones de alta calidad en cada unidad. El edificio cuenta con hall de ingreso de diseño, terraza comunitaria y locales comerciales en planta baja.'],
+    gallery:[{src:'assets/projects/mexico4111/01-fachada-general.jpg',label:'Fachada general'},{src:'assets/projects/mexico4111/02-fachada-peatonal.jpg',label:'Vista peatonal'},{src:'assets/projects/mexico4111/03-hall-ingreso.jpg',label:'Hall de ingreso'},{src:'assets/projects/mexico4111/04-interior-2amb-toillet.jpg',label:'Interior 2 amb. + toilette'},{src:'assets/projects/mexico4111/05-interior-2amb-toillet-b.jpg',label:'Interior 2 amb. + toilette B'},{src:'assets/projects/mexico4111/06-interior-2amb-1.jpg',label:'Interior 2 ambientes'},{src:'assets/projects/mexico4111/07-interior-2amb-2.jpg',label:'Interior 2 ambientes II'},{src:'assets/projects/mexico4111/08-dormitorio.jpg',label:'Dormitorio'},{src:'assets/projects/mexico4111/09-terraza.jpg',label:'Terraza'}],
+    obra:[{src:'assets/projects/mexico4111/obra/01-pre-demolicion-patio.jpg',cap:'Pre-demolición · Patio interno',c:4,r:2},{src:'assets/projects/mexico4111/obra/03-demolicion-excavadora.jpg',cap:'Demolición · Excavadora en obra',c:8,r:2},{src:'assets/projects/mexico4111/obra/02-demolicion-fachada.jpg',cap:'Demolición · Frente sobre calle México',c:6,r:1},{src:'assets/projects/mexico4111/obra/04-demolicion-vista-superior.jpg',cap:'Demolición · Vista superior',c:6,r:1},{src:'assets/projects/mexico4111/obra/05-terreno-limpio.jpg',cap:'Terreno limpio · Listo para iniciar',c:12,r:2}],
+    obraTitle:'Demolición finalizada · Planos aprobados', obraNote:'Próximas etapas: excavación, submuración y arranque de estructura.',
+    brochure:'assets/projects/mexico4111/brochure.pdf', ctaTitle:'Consultanos sobre México 4111',
   },
   wellthomas: {
-    title: 'Well Thomas',
-    subtitle: 'Villa Urquiza, CABA',
-    breadcrumb: 'PROYECTOS / DESARROLLO INMOBILIARIO',
-    heroBg: 'assets/projects/wellthomas/01-fachada.jpg',
-    ficha: [
-      { key: 'Proyecto', val: 'Well Thomas' },
-      { key: 'Ubicación', val: 'Villa Urquiza, CABA' },
-      { key: 'Tipología', val: 'Edificio de PH' },
-      { key: 'Año', val: '2025' },
-      { key: 'Etapa', val: 'Ejecución de estructura de hormigón' },
-      { key: 'Estudio', val: 'BZarq — Zajac · Brzezinski' },
-    ],
-    gallery: [
-      { src: 'assets/projects/wellthomas/01-fachada.jpg', label: 'Fachada — Vista exterior' },
-      { src: 'assets/projects/wellthomas/02-living-comedor.jpg', label: 'Living comedor' },
-      { src: 'assets/projects/wellthomas/03-living-cocina.jpg', label: 'Living con cocina integrada' },
-      { src: 'assets/projects/wellthomas/04-suite.jpg', label: 'Suite principal' },
-    ],
-    memoria: 'Edificio de propiedad horizontal en Villa Urquiza, actualmente en etapa de ejecución de estructura de hormigón. El proyecto contempla unidades de 2 y 3 ambientes con terminaciones de primera línea, amenities comunes y estética contemporánea acorde al barrio.',
-    obra: [
-      { src: 'assets/projects/wellthomas/obra/01.jpg', caption: 'Inicio de obra · Replanteo', span: '6,1' },
-      { src: 'assets/projects/wellthomas/obra/02.jpg', caption: 'Estructura · Losa nivel 1', span: '6,1' },
-      { src: 'assets/projects/wellthomas/obra/03.jpg', caption: 'Estructura · Columnas', span: '4,2' },
-      { src: 'assets/projects/wellthomas/obra/04.jpg', caption: 'Estructura · Avance general', span: '8,2' },
-      { src: 'assets/projects/wellthomas/obra/05.jpg', caption: 'Nivel 2 · Losa ejecutada', span: '6,1' },
-      { src: 'assets/projects/wellthomas/obra/06.jpg', caption: 'Vista exterior · Avance', span: '6,1' },
-      { src: 'assets/projects/wellthomas/obra/07.jpg', caption: 'Detalle estructura', span: '12,1' },
-    ],
-    obraSubtitle: 'Ejecución de estructura de hormigón',
-    obraNote: 'Próximas etapas: mamposterías y cerramientos.',
-    brochure: 'assets/projects/wellthomas/brochure.pdf',
-    ctaTitle: 'Consultanos sobre Well Thomas',
+    title:'Well Thomas', eyebrow:'Edificio · Villa Urquiza, CABA',
+    hero:'assets/projects/wellthomas/01-fachada.jpg',
+    ficha:[{k:'Proyecto',v:'Well Thomas'},{k:'Ubicación',v:'Villa Urquiza, CABA'},{k:'Tipología',v:'Edificio de propiedad horizontal'},{k:'Año',v:'2025'},{k:'Etapa',v:'Ejecución de estructura de hormigón'},{k:'Estudio',v:'BZarq — Zajac · Brzezinski'}],
+    quote:'"Unidades de alta calidad en uno de los barrios de mayor crecimiento de Buenos Aires."',
+    desc:['Edificio de propiedad horizontal en Villa Urquiza, actualmente en etapa de ejecución de estructura de hormigón. El proyecto contempla unidades de 2 y 3 ambientes con terminaciones de primera línea y amenities comunes.','La estética contemporánea del edificio dialoga con la identidad del barrio, priorizando la luz natural, los espacios amplios y los materiales de alta durabilidad.'],
+    gallery:[{src:'assets/projects/wellthomas/01-fachada.jpg',label:'Fachada — Vista exterior'},{src:'assets/projects/wellthomas/02-living-comedor.jpg',label:'Living comedor'},{src:'assets/projects/wellthomas/03-living-cocina.jpg',label:'Living con cocina integrada'},{src:'assets/projects/wellthomas/04-suite.jpg',label:'Suite principal'}],
+    obra:[{src:'assets/projects/wellthomas/obra/01.jpg',cap:'Inicio de obra · Replanteo',c:6,r:1},{src:'assets/projects/wellthomas/obra/02.jpg',cap:'Estructura · Losa nivel 1',c:6,r:1},{src:'assets/projects/wellthomas/obra/03.jpg',cap:'Estructura · Columnas',c:4,r:2},{src:'assets/projects/wellthomas/obra/04.jpg',cap:'Estructura · Avance general',c:8,r:2},{src:'assets/projects/wellthomas/obra/05.jpg',cap:'Nivel 2 · Losa ejecutada',c:6,r:1},{src:'assets/projects/wellthomas/obra/06.jpg',cap:'Vista exterior · Avance',c:6,r:1}],
+    obraTitle:'Ejecución de estructura de hormigón', obraNote:'Próximas etapas: mamposterías y cerramientos.',
+    brochure:'assets/projects/wellthomas/brochure.pdf', ctaTitle:'Consultanos sobre Well Thomas',
   },
   corrientes: {
-    title: 'Reforma Av. Corrientes',
-    subtitle: 'CABA',
-    breadcrumb: 'PROYECTOS / REMODELACIÓN DE INTERIORES',
-    heroBg: 'assets/projects/corrientes/01.jpg',
-    ficha: [
-      { key: 'Proyecto', val: 'Reforma de cocina — Av. Corrientes' },
-      { key: 'Ubicación', val: 'Av. Corrientes, CABA' },
-      { key: 'Tipología', val: 'Remodelación residencial' },
-      { key: 'Año', val: '2024' },
-      { key: 'Estado', val: 'Obra terminada' },
-      { key: 'Estudio', val: 'BZarq — Zajac · Brzezinski' },
-    ],
-    gallery: (function() {
-      const labels = ['Vista general con isla','Cocina iluminada — noche','Detalle mesada y backsplash','Cocina de día','Detalle mesada lateral','Perspectiva lateral','Vista en perspectiva','Detalle iluminación warm','Detalle mesada y griferías','Vista completa con ventana','Cocina completa','Perspectiva frontal','Vista con isla — día','Iluminación nocturna'];
-      return Array.from({length: 14}, (_, i) => ({
-        src: `assets/projects/corrientes/${String(i+1).padStart(2,'0')}.jpg`,
-        label: labels[i]
-      }));
-    })(),
-    memoria: 'Remodelación integral de cocina en departamento de Av. Corrientes. El proyecto propone una cocina abierta al living con isla de trabajo central, iluminación cálida de diseño, mesada de cuarzo y backsplash de azulejo artesanal. Obra terminada en 2024.',
-    obra: null,
-    brochure: null,
-    ctaTitle: 'Consultanos sobre este proyecto',
+    title:'Reforma Av. Corrientes', eyebrow:'Remodelación residencial · CABA',
+    hero:'assets/projects/corrientes/01.jpg',
+    ficha:[{k:'Proyecto',v:'Reforma de cocina — Av. Corrientes'},{k:'Ubicación',v:'Av. Corrientes, CABA'},{k:'Tipología',v:'Remodelación residencial'},{k:'Año',v:'2024'},{k:'Estado',v:'Obra terminada'},{k:'Estudio',v:'BZarq — Zajac · Brzezinski'}],
+    quote:'"Una cocina diseñada para vivir: funcional, luminosa y con carácter propio."',
+    desc:['Remodelación integral de cocina en departamento de Av. Corrientes. El proyecto propone una cocina abierta al living con isla de trabajo central, iluminación cálida de diseño, mesada de cuarzo y backsplash de azulejo artesanal.','El resultado es un espacio que combina funcionalidad y estética contemporánea, integrando la cocina como protagonista del living.'],
+    gallery:(()=>{const l=['Vista general con isla','Cocina iluminada — noche','Detalle mesada y backsplash','Cocina de día','Detalle mesada lateral','Perspectiva lateral','Vista en perspectiva','Detalle iluminación warm','Detalle mesada y griferías','Vista completa con ventana','Cocina completa','Perspectiva frontal','Vista con isla — día','Iluminación nocturna'];return Array.from({length:14},(_,i)=>({src:`assets/projects/corrientes/${String(i+1).padStart(2,'0')}.jpg`,label:l[i]}));})(),
+    obra:null, brochure:null, ctaTitle:'Consultanos sobre este proyecto',
   },
 };
 
-// ── Navigation ─────────────────────────────────────────────────────────────
-function navigate(page) {
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  
-  if (page === 'home' || page === 'proyectos' || page === 'estudio' || page === 'servicios' || page === 'contacto') {
-    document.getElementById('page-' + page).classList.add('active');
-    currentPage = page;
-  }
-  
-  window.scrollTo(0, 0);
-  updateNav();
-  injectContactAndFooter();
+let cur='home', lbImgs=[], lbIdx=0;
+const injected=new Set();
+
+function go(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  cur=page; window.scrollTo(0,0); navState(); injectShared();
 }
 
-function showProject(slug) {
-  const proj = PROJECTS[slug];
-  if (!proj) return;
-  
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+function showProj(slug) {
+  const p=PROJS[slug]; if(!p) return;
+  document.querySelectorAll('.page').forEach(pg=>pg.classList.remove('active'));
   document.getElementById('page-proyecto').classList.add('active');
-  currentPage = 'proyecto';
-  
-  const content = document.getElementById('proyecto-content');
-  content.innerHTML = buildProjectHTML(proj, slug);
-  
-  window.scrollTo(0, 0);
-  updateNav();
-  
-  // Init lightbox for this project
-  lightboxImages = proj.gallery;
+  cur='proyecto'; document.getElementById('proj-content').innerHTML=buildProj(p);
+  window.scrollTo(0,0); navState(); lbImgs=p.gallery; lbIdx=0;
 }
 
-function buildProjectHTML(p, slug) {
-  // Gallery layout
-  const g = p.gallery;
-  let galleryHTML = '';
-  
-  if (g.length >= 4) {
-    // Row 1: full width
-    galleryHTML += `<div style="overflow:hidden;cursor:pointer;height:520px;" onclick="openLightbox(0)">
-      <img src="${g[0].src}" alt="${g[0].label}" style="width:100%;height:100%;object-fit:cover;transition:transform 500ms;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
-    </div>`;
-    // Row 2: 3 cols
-    if (g.length >= 4) {
-      galleryHTML += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px;">`;
-      for (let i = 1; i < Math.min(4, g.length); i++) {
-        galleryHTML += `<div style="overflow:hidden;cursor:pointer;height:300px;" onclick="openLightbox(${i})">
-          <img src="${g[i].src}" alt="${g[i].label}" style="width:100%;height:100%;object-fit:cover;transition:transform 500ms;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
-        </div>`;
-      }
-      galleryHTML += `</div>`;
-    }
-    // Row 3: 2 cols
-    if (g.length >= 6) {
-      galleryHTML += `<div style="display:grid;grid-template-columns:1.2fr 1fr;gap:3px;margin-top:3px;">`;
-      for (let i = 4; i < Math.min(6, g.length); i++) {
-        galleryHTML += `<div style="overflow:hidden;cursor:pointer;height:380px;" onclick="openLightbox(${i})">
-          <img src="${g[i].src}" alt="${g[i].label}" style="width:100%;height:100%;object-fit:cover;transition:transform 500ms;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
-        </div>`;
-      }
-      galleryHTML += `</div>`;
-    }
-    // Row 4: 2 cols reversed
-    if (g.length >= 8) {
-      galleryHTML += `<div style="display:grid;grid-template-columns:1fr 1.2fr;gap:3px;margin-top:3px;">`;
-      for (let i = 6; i < Math.min(8, g.length); i++) {
-        galleryHTML += `<div style="overflow:hidden;cursor:pointer;height:360px;" onclick="openLightbox(${i})">
-          <img src="${g[i].src}" alt="${g[i].label}" style="width:100%;height:100%;object-fit:cover;transition:transform 500ms;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
-        </div>`;
-      }
-      galleryHTML += `</div>`;
-    }
-    // Remaining as row of 3
-    if (g.length > 8) {
-      galleryHTML += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px;">`;
-      for (let i = 8; i < g.length; i++) {
-        galleryHTML += `<div style="overflow:hidden;cursor:pointer;height:280px;" onclick="openLightbox(${i})">
-          <img src="${g[i].src}" alt="${g[i].label}" style="width:100%;height:100%;object-fit:cover;transition:transform 500ms;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
-        </div>`;
-      }
-      galleryHTML += `</div>`;
-    }
-  }
-
-  // Ficha
-  const fichaHTML = p.ficha.map(f => `
-    <div class="ficha-item">
-      <div class="ficha-key">${f.key}</div>
-      <div class="ficha-val">${f.val}</div>
-    </div>`).join('');
-
-  // Obra section
-  let obraHTML = '';
-  if (p.obra && p.obra.length) {
-    const obraItems = p.obra.map(item => {
-      const [cols, rows] = item.span.split(',');
-      return `<figure class="obra-figure" style="grid-column:span ${cols};grid-row:span ${rows || 1};">
-        <img src="${item.src}" alt="${item.caption}" loading="lazy">
-        <figcaption class="obra-caption">${item.caption}</figcaption>
-      </figure>`;
-    }).join('');
-    obraHTML = `
-      <section style="background:#fff;padding:80px;border-top:1px solid var(--g100);">
-        <div class="max">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:32px;flex-wrap:wrap;gap:16px;">
-            <div>
-              <span class="label">Avance de obra</span>
-              <h2 style="font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-0.02em;">${p.obraSubtitle}</h2>
-            </div>
-            <div style="font-size:12px;color:var(--g400);letter-spacing:0.04em;">Última actualización · próximamente</div>
-          </div>
-          <div class="obra-grid">${obraItems}</div>
-          ${p.obraNote ? `<p style="font-size:13px;color:var(--g500);margin-top:24px;line-height:1.6;">${p.obraNote}</p>` : ''}
-        </div>
-      </section>`;
-  }
-
-  // Brochure section
-  let brochureHTML = '';
-  if (p.brochure) {
-    brochureHTML = `
-      <div class="brochure-strip">
-        <div class="brochure-inner">
-          <div>
-            <span class="label">Material descargable</span>
-            <h3 style="font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-0.01em;margin:0;">Brochure del proyecto</h3>
-            <p style="font-size:13px;color:var(--g500);margin-top:6px;">Información completa de unidades, planos y memoria descriptiva.</p>
-          </div>
-          <a href="${p.brochure}" download class="btn btn-dark">Descargar PDF <span>↓</span></a>
-        </div>
-      </div>`;
-  }
-
-  const tplContact = document.getElementById('tpl-contact').content.cloneNode(true);
-  const tplFooter = document.getElementById('tpl-footer').content.cloneNode(true);
-  const div = document.createElement('div');
-  div.appendChild(tplContact);
-  div.appendChild(tplFooter);
-  const contactFooterHTML = div.innerHTML;
-
+function buildProj(p) {
+  const g=p.gallery;
+  const fichaRows=p.ficha.map(f=>`<div class="ficha-row"><div class="ficha-k">${f.k}</div><div class="ficha-v">${f.v}</div></div>`).join('');
+  let gHtml=`<div class="g-full" style="height:60vh;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}"></div>`;
+  if(g.length>1){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=1;i<Math.min(4,g.length);i++)gHtml+=`<div class="g-cell" style="height:300px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+  if(g.length>4){gHtml+=`<div class="g-grid" style="grid-template-columns:1.2fr 1fr;gap:2px;margin-top:2px;">`;for(let i=4;i<Math.min(6,g.length);i++)gHtml+=`<div class="g-cell" style="height:380px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+  if(g.length>6){gHtml+=`<div class="g-grid" style="grid-template-columns:1fr 1.2fr;gap:2px;margin-top:2px;">`;for(let i=6;i<Math.min(8,g.length);i++)gHtml+=`<div class="g-cell" style="height:360px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+  if(g.length>8){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=8;i<g.length;i++)gHtml+=`<div class="g-cell" style="height:280px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+  let obraHtml='';
+  if(p.obra&&p.obra.length){const items=p.obra.map(o=>`<figure class="obra-fig" style="grid-column:span ${o.c};grid-row:span ${o.r};"><img src="${o.src}" alt="${o.cap}" loading="lazy"><figcaption class="obra-cap">${o.cap}</figcaption></figure>`).join('');obraHtml=`<section class="sec" style="background:var(--white);border-top:1px solid var(--g100);"><div class="max"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:32px;flex-wrap:wrap;gap:16px;"><div><span class="lbl">Avance de obra</span><h2 style="font-size:clamp(22px,2.5vw,32px);font-weight:700;color:var(--ink);letter-spacing:-0.02em;">${p.obraTitle}</h2></div><div style="font-size:12px;color:var(--g400);letter-spacing:0.04em;">Última actualización · próximamente</div></div><div class="obra-grid">${items}</div>${p.obraNote?`<p style="font-size:13px;color:var(--g500);margin-top:24px;line-height:1.6;">${p.obraNote}</p>`:''}</div></section>`;}
+  let brochureHtml='';
+  if(p.brochure){brochureHtml=`<div class="brochure-strip"><div class="brochure-inner"><div><span class="lbl">Material descargable</span><h3 style="font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-0.01em;margin:0;">Brochure del proyecto</h3><p style="font-size:13px;color:var(--g500);margin-top:6px;">Información completa de unidades, planos y memoria descriptiva.</p></div><a href="${p.brochure}" download class="btn btn-dark">Descargar PDF ↓</a></div></div>`;}
+  const cNode=document.getElementById('tpl-contact').content.cloneNode(true);
+  const fNode=document.getElementById('tpl-footer').content.cloneNode(true);
+  const tmp=document.createElement('div'); tmp.appendChild(cNode); tmp.appendChild(fNode);
+  const cfHtml=tmp.innerHTML;
   return `
-    <!-- Hero -->
-    <div class="project-hero" style="min-height: 70vh;">
-      <div class="project-hero-img" style="background-image:url('${p.heroBg}');"></div>
-      <div class="project-hero-overlay"></div>
-      <div class="project-hero-content">
-        <div class="project-breadcrumb">${p.breadcrumb}</div>
-        <div class="project-title">${p.title}</div>
-      </div>
+    <div class="proj-hero"><img class="bg" src="${p.hero}" alt="${p.title}"><div class="proj-hero-overlay"></div>
+      <div class="proj-hero-txt"><div class="proj-eyebrow">${p.eyebrow}</div><div class="proj-title-h1">${p.title}</div></div>
+      <div style="position:absolute;bottom:40px;right:80px;display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:1px;height:48px;background:rgba(255,255,255,0.3);"></div><span style="font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);writing-mode:vertical-rl;">Scroll</span></div>
     </div>
-    <!-- Ficha -->
-    <div class="ficha-strip">
-      <div class="ficha-grid">${fichaHTML}</div>
-    </div>
-    <!-- Gallery -->
-    <section style="padding:0;">
-      ${galleryHTML}
-      <div style="padding:20px 80px 0;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:11px;color:var(--g400);letter-spacing:0.08em;">${g.length} imágenes — clic para ampliar</div>
-      </div>
-    </section>
-    <!-- Memoria -->
-    <section style="background:var(--offwhite);">
-      <div class="max" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;">
-        <div>
-          <span class="label">Memoria descriptiva</span>
-          <h2 style="font-size:clamp(22px,2.5vw,32px);font-weight:700;color:var(--black);letter-spacing:-0.02em;margin-bottom:20px;">${p.title}</h2>
-          <p style="font-size:15px;color:var(--g500);line-height:1.7;max-width:56ch;">${p.memoria}</p>
-        </div>
-        <div></div>
-      </div>
-    </section>
-    ${obraHTML}
-    ${brochureHTML}
-    <!-- CTA contacto -->
-    <div class="cta-contact">
-      <div class="cta-inner">
-        <div>
-          <div style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px;">¿Te interesa este proyecto?</div>
-          <h2 style="font-size:clamp(24px,3vw,40px);font-weight:700;color:var(--white);letter-spacing:-0.02em;margin:0;">${p.ctaTitle}</h2>
-        </div>
-        <a href="mailto:hola@estudiobz.com.ar" class="btn btn-light" style="flex-shrink:0;margin-left:40px;">Escribinos</a>
-      </div>
-    </div>
-    <!-- Volver -->
-    <div style="background:var(--black);border-top:1px solid rgba(255,255,255,0.08);padding:24px 80px;display:flex;justify-content:space-between;align-items:center;">
-      <img src="assets/BZARQ_Logo_Blanco.png" alt="BZarq" style="height:22px;">
-      <div style="display:flex;gap:32px;">
-        <button onclick="navigate('proyectos')" style="font-family:var(--font);font-size:12px;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;letter-spacing:0.06em;">← Volver a proyectos</button>
-        <a href="mailto:hola@estudiobz.com.ar" style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.06em;">hola@estudiobz.com.ar</a>
-      </div>
-    </div>
-  `;
+    <section class="sec" style="background:var(--white);"><div class="max" style="display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start;">
+      <div><span class="lbl">Ficha técnica</span><div class="ficha-table">${fichaRows}</div></div>
+      <div><span class="lbl">Sobre el proyecto</span><p style="font-family:var(--serif);font-size:26px;font-weight:300;font-style:italic;color:var(--ink);line-height:1.35;margin-bottom:28px;">${p.quote}</p>${p.desc.map(d=>`<p style="font-size:15px;color:var(--g500);line-height:1.75;margin-bottom:16px;">${d}</p>`).join('')}</div>
+    </div></section>
+    <section style="padding:0;background:var(--offwhite);">${gHtml}<div style="padding:20px 80px 80px;"><span style="font-size:11px;color:var(--g400);letter-spacing:0.08em;">${g.length} imágenes — clic para ampliar</span></div></section>
+    ${obraHtml}${brochureHtml}
+    <div class="cta-dark"><div class="cta-inner"><div><div style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px;">¿Te interesa este proyecto?</div><h2 style="font-size:clamp(24px,3vw,40px);font-weight:700;color:var(--white);letter-spacing:-0.02em;margin:0;">${p.ctaTitle}</h2></div><a href="mailto:hola@estudiobz.com.ar" class="btn btn-light" style="flex-shrink:0;margin-left:40px;">Escribinos</a></div></div>
+    <div style="background:var(--black);border-top:1px solid rgba(255,255,255,0.08);padding:24px 80px;display:flex;justify-content:space-between;align-items:center;"><img src="assets/BZARQ_Logo_Blanco.png" alt="BZarq" style="height:22px;"><div style="display:flex;gap:32px;"><button onclick="go('proyectos')" style="font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;letter-spacing:0.06em;">← Volver a proyectos</button><a href="mailto:hola@estudiobz.com.ar" style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.06em;">hola@estudiobz.com.ar</a></div></div>
+    ${cfHtml}`;
 }
 
-// ── Inject shared contact + footer ─────────────────────────────────────────
-function injectContactAndFooter() {
-  const pages = ['home', 'estudio', 'servicios', 'contacto', 'proyectos'];
-  pages.forEach(p => {
-    const cId = `contact-${p}`;
-    const fId = `footer-${p}`;
-    const cEl = document.getElementById(cId);
-    const fEl = document.getElementById(fId);
-
-    if (cEl && !cEl.dataset.injected) {
-      const node = document.getElementById('tpl-contact').content.cloneNode(true);
-      cEl.appendChild(node);
-      cEl.dataset.injected = 'true';
-      // Bind form
-      const form = cEl.querySelector('.bzarq-form');
-      if (form) bindContactForm(form);
-    }
-    if (fEl && !fEl.dataset.injected) {
-      const node = document.getElementById('tpl-footer').content.cloneNode(true);
-      fEl.appendChild(node);
-      fEl.dataset.injected = 'true';
-    }
+function injectShared() {
+  ['home','estudio','servicios','contacto','proyectos'].forEach(p=>{
+    const cEl=document.getElementById(`inc-c-${p}`);
+    const fEl=document.getElementById(`inc-f-${p}`);
+    if(cEl&&!injected.has(`c-${p}`)){cEl.appendChild(document.getElementById('tpl-contact').content.cloneNode(true));injected.add(`c-${p}`);const f=cEl.querySelector('.bzform');if(f)bindForm(f);}
+    if(fEl&&!injected.has(`f-${p}`)){fEl.appendChild(document.getElementById('tpl-footer').content.cloneNode(true));injected.add(`f-${p}`);}
   });
 }
 
-function bindContactForm(form) {
-  form.addEventListener('submit', function(e) {
+function bindForm(form) {
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const section = form.closest('section');
-    section.innerHTML = `
-      <div class="max form-success">
-        <div class="form-success-icon">✓</div>
-        <h3 style="font-size:24px;font-weight:700;color:var(--black);margin-bottom:12px;">Mensaje enviado</h3>
-        <p style="font-size:15px;color:var(--g500);">Nos ponemos en contacto a la brevedad.</p>
-      </div>`;
+    const action=form.getAttribute('action');
+    if(action.includes('FORMSPREE_ID')){alert('Para activar el formulario, seguí las instrucciones de Formspree.');return;}
+    const btn=form.querySelector('[type=submit]');
+    btn.textContent='Enviando...'; btn.disabled=true;
+    try {
+      const res=await fetch(action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
+      if(res.ok){form.closest('section').innerHTML=`<div class="max" style="text-align:center;padding:80px 20px;"><div style="font-size:32px;margin-bottom:16px;">✓</div><h3 style="font-size:24px;font-weight:700;color:var(--black);margin-bottom:12px;">Mensaje enviado</h3><p style="font-size:15px;color:var(--g500);">Nos ponemos en contacto a la brevedad.</p></div>`;}
+      else{btn.textContent='Reintentar';btn.disabled=false;}
+    } catch(err){btn.textContent='Reintentar';btn.disabled=false;}
   });
 }
 
-// ── Nav scroll behavior ─────────────────────────────────────────────────────
-function updateNav() {
-  const nav = document.getElementById('nav');
-  const logo = document.getElementById('nav-logo');
-  const isProjectPage = currentPage === 'proyecto';
-  const isDarkPage = currentPage === 'home' || isProjectPage;
-  
-  if (isDarkPage) {
-    nav.classList.remove('scrolled');
-    logo.src = 'assets/BZARQ_Logo_Blanco.png';
-  } else {
-    nav.classList.add('scrolled');
-    logo.src = 'assets/BZARQ_Logo_Negro.png';
-  }
+function navState() {
+  const nav=document.getElementById('nav'),logo=document.getElementById('nav-logo');
+  const isDark=cur==='home'||cur==='proyecto';
+  if(isDark){nav.classList.remove('solid');logo.src='assets/BZARQ_Logo_Blanco.png';}
+  else{nav.classList.add('solid');logo.src='assets/BZARQ_Logo_Negro.png';}
 }
 
-window.addEventListener('scroll', function() {
-  const nav = document.getElementById('nav');
-  const logo = document.getElementById('nav-logo');
-  const scrolled = window.scrollY > 80;
-  
-  if (scrolled) {
-    nav.classList.add('scrolled');
-    logo.src = 'assets/BZARQ_Logo_Negro.png';
-  } else {
-    if (currentPage === 'home' || currentPage === 'proyecto') {
-      nav.classList.remove('scrolled');
-      logo.src = 'assets/BZARQ_Logo_Blanco.png';
-    }
-  }
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('nav'),logo=document.getElementById('nav-logo');
+  if(window.scrollY>80){nav.classList.add('solid');logo.src='assets/BZARQ_Logo_Negro.png';}
+  else if(cur==='home'||cur==='proyecto'){nav.classList.remove('solid');logo.src='assets/BZARQ_Logo_Blanco.png';}
 });
 
-// ── Mobile menu ─────────────────────────────────────────────────────────────
-function toggleMobileMenu() {
-  document.getElementById('mobile-menu').classList.toggle('open');
+function toggleMenu(){document.getElementById('mob-menu').classList.toggle('open');}
+
+function filterP(cat,btn){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));btn.classList.add('on');
+  document.querySelectorAll('#pgrid .pcard').forEach(card=>{card.classList.toggle('hidden',cat!=='todos'&&card.dataset.cat!==cat);});
 }
 
-// ── Project filter ──────────────────────────────────────────────────────────
-function filterProjects(cat, btn) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  
-  document.querySelectorAll('#proyectos-grid .proj-card').forEach(card => {
-    if (cat === 'todos') {
-      card.classList.remove('hidden');
-    } else {
-      const cardCat = card.dataset.cat;
-      if (
-        (cat === 'desarrollo' && cardCat === 'desarrollo') ||
-        (cat === 'comercial' && cardCat === 'comercial') ||
-        (cat === 'remodelacion' && cardCat === 'remodelacion')
-      ) {
-        card.classList.remove('hidden');
-      } else {
-        card.classList.add('hidden');
-      }
-    }
-  });
-}
+function lbOpen(i){lbIdx=i;lbUpdate();document.getElementById('lb').classList.add('open');document.body.style.overflow='hidden';}
+function lbClose(){document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}
+function lbNav(d){lbIdx=(lbIdx+d+lbImgs.length)%lbImgs.length;lbUpdate();}
+function lbUpdate(){const img=lbImgs[lbIdx];if(!img)return;document.getElementById('lb-img').src=img.src;document.getElementById('lb-img').alt=img.label;document.getElementById('lb-label').textContent=img.label;document.getElementById('lb-count').textContent=`${lbIdx+1} / ${lbImgs.length}`;}
+document.addEventListener('keydown',e=>{if(!document.getElementById('lb').classList.contains('open'))return;if(e.key==='Escape')lbClose();if(e.key==='ArrowRight')lbNav(1);if(e.key==='ArrowLeft')lbNav(-1);});
 
-// ── Lightbox ─────────────────────────────────────────────────────────────────
-function openLightbox(index) {
-  lightboxIndex = index;
-  const lb = document.getElementById('lightbox');
-  lb.classList.add('open');
-  updateLightbox();
-  document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function navLightbox(dir) {
-  lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
-  updateLightbox();
-}
-
-function updateLightbox() {
-  const img = lightboxImages[lightboxIndex];
-  if (!img) return;
-  document.getElementById('lightbox-img').src = img.src;
-  document.getElementById('lightbox-img').alt = img.label;
-  document.getElementById('lightbox-caption').textContent = `${lightboxIndex + 1} / ${lightboxImages.length} — ${img.label}`;
-}
-
-document.addEventListener('keydown', function(e) {
-  if (document.getElementById('lightbox').classList.contains('open')) {
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowRight') navLightbox(1);
-    if (e.key === 'ArrowLeft') navLightbox(-1);
-  }
-});
-
-// ── Init ─────────────────────────────────────────────────────────────────────
-injectContactAndFooter();
-updateNav();
+injectShared(); navState();
 </script>
 </body>
 </html>
