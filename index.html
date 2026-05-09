@@ -191,32 +191,70 @@ footer { background: var(--black); padding: 64px 80px 40px; }
 
 /* RESPONSIVE */
 @media (max-width: 960px) {
-  #nav { padding: 0 24px; }
+  #nav { padding: 0 20px; }
   #nav .nav-links { display: none; }
   .hamburger { display: flex; }
-  .sec { padding: 56px 24px; }
-  .sec-sm { padding: 48px 24px; }
-  .hero-content { padding: 0 24px 64px; }
+  .sec { padding: 48px 20px; }
+  .sec-sm { padding: 40px 20px; }
+  .hero-content { padding: 0 20px 56px; }
+  .hero h1 { font-size: clamp(36px, 8vw, 56px); }
+  .hero p { font-size: 15px; }
   .hero-eyebrow, .hero-scroll { display: none; }
   .about-strip { grid-template-columns: 1fr; }
-  .about-img { min-height: 300px; }
-  .about-copy { padding: 48px 24px; }
-  .svc-row { grid-template-columns: 1fr; gap: 12px; }
-  .proj-grid { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
-  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  .stats-row { grid-template-columns: 1fr 1fr; gap: 24px; }
-  .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-  .brochure-strip, .cta-dark { padding: 48px 24px; }
-  .brochure-inner, .cta-inner { flex-direction: column; align-items: flex-start; }
-  .proj-hero-txt { padding: 0 24px 48px; }
-  .obra-grid { grid-auto-rows: 120px; }
-  .partners-grid { grid-template-columns: 1fr; }
+  .about-img { min-height: 260px; width: 100%; }
+  .about-copy { padding: 40px 20px; }
+  .svc-row { grid-template-columns: 1fr; gap: 8px; padding: 28px 0; }
+  .svc-num { display: none; }
+  .proj-grid { grid-template-columns: 1fr 1fr; gap: 20px 12px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .stat-n { font-size: 32px; }
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .brochure-strip { padding: 40px 20px; }
+  .cta-dark { padding: 48px 20px; }
+  .brochure-inner, .cta-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .partners-grid { grid-template-columns: 1fr; gap: 36px; }
+  .partner-card { flex-direction: column; gap: 16px; }
+  .partner-img { width: 100px; height: 130px; }
+  /* Project pages */
+  .proj-hero { height: 60vh; min-height: 400px; }
+  .proj-hero-txt { padding: 0 20px 40px; }
+  .proj-title-h1 { font-size: clamp(32px, 7vw, 56px); }
+  /* Contact form grid */
+  .field-2col { grid-template-columns: 1fr !important; }
 }
 @media (max-width: 600px) {
+  .sec { padding: 40px 16px; }
+  .sec-sm { padding: 32px 16px; }
+  .hero-content { padding: 0 16px 48px; }
   .proj-grid { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: 1fr 1fr; }
-  .foot-grid { grid-template-columns: 1fr; }
+  .pcard-img { height: 220px; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .foot-grid { grid-template-columns: 1fr; gap: 24px; }
+  .foot-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .about-copy { padding: 32px 16px; }
+  .brochure-strip { padding: 32px 16px; }
+  .cta-dark { padding: 40px 16px; }
+  .cta-inner .btn { width: 100%; justify-content: center; }
+  .brochure-inner .btn { width: 100%; justify-content: center; }
+  /* Mobile form */
+  .bzform { gap: 12px !important; }
 }
+/* PROJECT DETAIL */
+.proj-detail-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: start; }
+.proj-gallery-note { padding: 20px 80px 60px; }
+.proj-back-bar { background: var(--black); border-top: 1px solid rgba(255,255,255,0.08); padding: 24px 80px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 960px) {
+  .proj-detail-grid { grid-template-columns: 1fr; gap: 40px; }
+  .proj-gallery-note { padding: 16px 20px 40px; }
+  .proj-back-bar { padding: 20px; }
+  section[style*="padding:96px 80px"] { padding: 64px 20px !important; }
+}
+@media (max-width: 600px) {
+  .proj-gallery-note { padding: 12px 16px 32px; }
+  .proj-back-bar { padding: 16px; flex-direction: column; align-items: flex-start; }
+}
+
 /* CAROUSEL */
 .carousel-wrap { position: relative; overflow: hidden; }
 .carousel-track { display: flex; transition: transform 400ms ease; }
@@ -340,7 +378,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
 <!-- PAGE: PROYECTOS -->
 <div class="page" id="page-proyectos">
   <div style="padding-top:72px;">
-    <section style="background:var(--black);padding:80px 80px 72px;"><div class="max"><span class="lbl lt">Nuestro trabajo</span><h1 style="font-size:clamp(40px,6vw,72px);font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1.0;max-width:560px;">Proyectos</h1></div></section>
+    <section class="sec" style="background:var(--black);padding-top:80px;padding-bottom:56px;"><div class="max"><span class="lbl lt">Nuestro trabajo</span><h1 style="font-size:clamp(40px,6vw,72px);font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1.0;max-width:560px;">Proyectos</h1></div></section>
     <section class="sec"><div class="max">
       <div class="filter-bar">
         <button class="chip on" onclick="filterP('todos',this)">Todos</button>
@@ -361,7 +399,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
 <!-- PAGE: ESTUDIO -->
 <div class="page" id="page-estudio">
   <div style="padding-top:72px;">
-    <section style="background:var(--black);padding:96px 80px 80px;position:relative;overflow:hidden;">
+    <section class="sec" style="background:var(--black);padding-top:80px;padding-bottom:64px;position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;background-image:url('assets/bzarq-socios.jpg');background-size:cover;background-position:center 25%;filter:grayscale(100%);opacity:0.22;"></div>
       <div class="max" style="position:relative;"><span class="lbl lt">Quiénes somos</span><h1 style="font-size:clamp(40px,5vw,72px);font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1.05;max-width:640px;margin:0 0 24px;">BZarq</h1><p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:560px;">Estudio de arquitectura y desarrollos fundado por Dylan Zajac y Sebastián Brzezinski. Proyectamos y construimos con compromiso, calidad y visión a largo plazo.</p></div>
     </section>
@@ -377,7 +415,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
 <!-- PAGE: SERVICIOS -->
 <div class="page" id="page-servicios">
   <div style="padding-top:72px;">
-    <section style="background:var(--black);padding:96px 80px;"><div class="max"><span class="lbl lt">Nuestros servicios</span><h1 style="font-size:clamp(40px,5vw,72px);font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1.05;max-width:640px;">Qué hacemos</h1></div></section>
+    <section class="sec" style="background:var(--black);padding-top:80px;padding-bottom:64px;"><div class="max"><span class="lbl lt">Nuestros servicios</span><h1 style="font-size:clamp(40px,5vw,72px);font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1.05;max-width:640px;">Qué hacemos</h1></div></section>
     <section class="sec" style="background:var(--white);"><div class="max">
       <div class="svc-row"><div class="svc-num">01</div><div><div class="svc-cat">Desarrollos</div><div class="svc-title">Desarrollos Inmobiliarios</div></div><div><p class="svc-desc">Gestión integral de proyectos de propiedad horizontal: desde el análisis de factibilidad hasta la entrega de llaves. Controlamos cada etapa con foco en rentabilidad y calidad constructiva.</p><div class="svc-tags"><span class="svc-tag">Análisis de factibilidad</span><span class="svc-tag">Proyecto ejecutivo</span><span class="svc-tag">Dirección de obra</span><span class="svc-tag">Gestión de permisos</span><span class="svc-tag">Coordinación de oficios</span></div></div></div>
       <div class="svc-row"><div class="svc-num">02</div><div><div class="svc-cat">Arquitectura comercial</div><div class="svc-title">Arquitectura Comercial</div></div><div><p class="svc-desc">Diseño y ejecución de locales, oficinas y espacios de trabajo. Entendemos que el espacio comercial es una herramienta de negocio: lo diseñamos para que funcione y venda.</p><div class="svc-tags"><span class="svc-tag">Locales comerciales</span><span class="svc-tag">Oficinas</span><span class="svc-tag">Consultorios</span><span class="svc-tag">Restaurantes y bares</span></div></div></div>
@@ -413,7 +451,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
       </div>
       <!-- *** REEMPLAZÁ "FORMSPREE_ID" con tu ID de formspree.io *** -->
       <form class="bzform" action="https://formspree.io/f/FORMSPREE_ID" method="POST" style="display:flex;flex-direction:column;gap:16px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="field-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div class="field"><label>Nombre</label><input type="text" name="nombre" placeholder="Juan García" required></div>
           <div class="field"><label>Email</label><input type="email" name="email" placeholder="juan@ejemplo.com" required></div>
         </div>
@@ -557,16 +595,17 @@ function buildProj(p) {
   return `
     <div class="proj-hero"><img class="bg" src="${p.hero}" alt="${p.title}"><div class="proj-hero-overlay"></div>
       <div class="proj-hero-txt"><div class="proj-eyebrow">${p.eyebrow}</div><div class="proj-title-h1">${p.title}</div></div>
-      <div style="position:absolute;bottom:40px;right:80px;display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:1px;height:48px;background:rgba(255,255,255,0.3);"></div><span style="font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);writing-mode:vertical-rl;">Scroll</span></div>
     </div>
-    <section class="sec" style="background:var(--white);"><div class="max" style="display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start;">
-      <div><span class="lbl">Ficha técnica</span><div class="ficha-table">${fichaRows}</div></div>
-      <div><span class="lbl">Sobre el proyecto</span><p style="font-family:var(--serif);font-size:26px;font-weight:300;font-style:italic;color:var(--ink);line-height:1.35;margin-bottom:28px;">${p.quote}</p>${p.desc.map(d=>`<p style="font-size:15px;color:var(--g500);line-height:1.75;margin-bottom:16px;">${d}</p>`).join('')}</div>
-    </div></section>
-    <section style="padding:0;background:var(--offwhite);">${gHtml}<div style="padding:20px 80px 80px;"><span style="font-size:11px;color:var(--g400);letter-spacing:0.08em;">${g.length} imágenes — clic para ampliar</span></div></section>
+    <section class="sec" style="background:var(--white);">
+      <div class="max proj-detail-grid">
+        <div><span class="lbl">Ficha técnica</span><div class="ficha-table">${fichaRows}</div></div>
+        <div><span class="lbl">Sobre el proyecto</span><p style="font-family:var(--serif);font-size:clamp(20px,2.5vw,26px);font-weight:300;font-style:italic;color:var(--ink);line-height:1.35;margin-bottom:24px;">${p.quote}</p>${p.desc.map(d=>`<p style="font-size:15px;color:var(--g500);line-height:1.75;margin-bottom:16px;">${d}</p>`).join('')}</div>
+      </div>
+    </section>
+    <section style="padding:0;background:var(--offwhite);">${gHtml}<div class="proj-gallery-note"><span style="font-size:11px;color:var(--g400);letter-spacing:0.08em;">${g.length} imágenes — clic para ampliar</span></div></section>
     ${obraHtml}${brochureHtml}
-    <div class="cta-dark"><div class="cta-inner"><div><div style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px;">¿Te interesa este proyecto?</div><h2 style="font-size:clamp(24px,3vw,40px);font-weight:700;color:var(--white);letter-spacing:-0.02em;margin:0;">${p.ctaTitle}</h2></div><a href="mailto:hola@estudiobz.com.ar" class="btn btn-light" style="flex-shrink:0;margin-left:40px;">Escribinos</a></div></div>
-    <div style="background:var(--black);border-top:1px solid rgba(255,255,255,0.08);padding:24px 80px;display:flex;justify-content:space-between;align-items:center;"><img src="assets/BZARQ_Logo_Blanco.svg" alt="BZarq" style="height:22px;"><div style="display:flex;gap:32px;"><button onclick="go('proyectos')" style="font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;letter-spacing:0.06em;">← Volver a proyectos</button><a href="mailto:hola@estudiobz.com.ar" style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.06em;">hola@estudiobz.com.ar</a></div></div>
+    <div class="cta-dark"><div class="cta-inner"><div><div style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px;">¿Te interesa este proyecto?</div><h2 style="font-size:clamp(22px,3vw,40px);font-weight:700;color:var(--white);letter-spacing:-0.02em;margin:0;">${p.ctaTitle}</h2></div><a href="mailto:hola@estudiobz.com.ar" class="btn btn-light" style="flex-shrink:0;">Escribinos</a></div></div>
+    <div class="proj-back-bar"><img src="assets/BZARQ_Logo_Blanco.svg" alt="BZarq" style="height:22px;"><div style="display:flex;gap:24px;flex-wrap:wrap;"><button onclick="go('proyectos')" style="font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;letter-spacing:0.06em;">← Volver a proyectos</button><a href="mailto:hola@estudiobz.com.ar" style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.06em;">hola@estudiobz.com.ar</a></div></div>
     ${cfHtml}`;
 }
 
