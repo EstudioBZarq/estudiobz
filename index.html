@@ -559,6 +559,7 @@ const PROJS = {
       {src:'assets/projects/wise/obra-03.jpg', cap:'En construcción · Tabiquería', c:6, r:1},
       {src:'assets/projects/wise/obra-04.jpg', cap:'En construcción · Avance general', c:6, r:1},
     ],
+    galleryPortrait: true,
     obraTitle:'Obra terminada — 2025', obraNote:'Proyecto entregado en 2025. Superficie cubierta: 200 m².',
     brochure:null, ctaTitle:'Consultanos sobre proyectos similares',
   },
@@ -569,6 +570,7 @@ const PROJS = {
     quote:'"Una cocina diseñada para vivir: funcional, luminosa y con carácter propio."',
     desc:['Remodelación integral de cocina en departamento de Av. Corrientes. El proyecto propone una cocina abierta al living con isla de trabajo central, iluminación cálida de diseño, mesada de cuarzo y backsplash de azulejo artesanal.','El resultado es un espacio que combina funcionalidad y estética contemporánea, integrando la cocina como protagonista del living.'],
     gallery:(()=>{const l=['Vista general con isla','Cocina iluminada — noche','Detalle mesada y backsplash','Cocina de día','Detalle mesada lateral','Perspectiva lateral','Vista en perspectiva','Detalle iluminación warm','Detalle mesada y griferías','Vista completa con ventana','Cocina completa','Perspectiva frontal','Vista con isla — día','Iluminación nocturna'];return Array.from({length:14},(_,i)=>({src:`assets/projects/corrientes/${String(i+1).padStart(2,'0')}.jpg`,label:l[i]}));})(),
+    galleryPortrait: true,
     obra:null, brochure:null, ctaTitle:'Consultanos sobre este proyecto',
   },
 };
@@ -593,12 +595,27 @@ function showProj(slug) {
 function buildProj(p) {
   const g=p.gallery;
   const fichaRows=p.ficha.map(f=>`<div class="ficha-row"><div class="ficha-k">${f.k}</div><div class="ficha-v">${f.v}</div></div>`).join('');
-  let gHtml=`<div class="g-full" style="height:60vh;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}"></div>`;
-  if(g.length>1){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=1;i<Math.min(4,g.length);i++)gHtml+=`<div class="g-cell" style="height:300px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
-  if(g.length>4){gHtml+=`<div class="g-grid" style="grid-template-columns:1.2fr 1fr;gap:2px;margin-top:2px;">`;for(let i=4;i<Math.min(6,g.length);i++)gHtml+=`<div class="g-cell" style="height:380px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
-  if(g.length>6){gHtml+=`<div class="g-grid" style="grid-template-columns:1fr 1.2fr;gap:2px;margin-top:2px;">`;for(let i=6;i<Math.min(8,g.length);i++)gHtml+=`<div class="g-cell" style="height:360px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
-  if(g.length>8){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=8;i<g.length;i++)gHtml+=`<div class="g-cell" style="height:280px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
-  let obraHtml='';
+  // Gallery — layout adapts to photo orientation hint (p.galleryPortrait = true for vertical photos)
+  const portrait = p.galleryPortrait || false;
+  let gHtml='';
+  if(portrait){
+    // Portrait photos: show 2 per row, tall cells
+    gHtml+=`<div class="g-full" style="height:75vh;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}" style="object-position:center top;"></div>`;
+    for(let i=1;i<g.length;i+=2){
+      const hasNext = i+1 < g.length;
+      gHtml+=`<div class="g-grid" style="grid-template-columns:${hasNext?'1fr 1fr':'1fr'};gap:2px;margin-top:2px;">`;
+      gHtml+=`<div class="g-cell" style="height:65vh;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}" style="object-position:center top;"></div>`;
+      if(hasNext) gHtml+=`<div class="g-cell" style="height:65vh;" onclick="lbOpen(${i+1})"><img src="${g[i+1].src}" alt="${g[i+1].label}" style="object-position:center top;"></div>`;
+      gHtml+=`</div>`;
+    }
+  } else {
+    // Landscape photos: original layout
+    gHtml=`<div class="g-full" style="height:60vh;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}"></div>`;
+    if(g.length>1){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=1;i<Math.min(4,g.length);i++)gHtml+=`<div class="g-cell" style="height:320px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+    if(g.length>4){gHtml+=`<div class="g-grid" style="grid-template-columns:1.2fr 1fr;gap:2px;margin-top:2px;">`;for(let i=4;i<Math.min(6,g.length);i++)gHtml+=`<div class="g-cell" style="height:400px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+    if(g.length>6){gHtml+=`<div class="g-grid" style="grid-template-columns:1fr 1.2fr;gap:2px;margin-top:2px;">`;for(let i=6;i<Math.min(8,g.length);i++)gHtml+=`<div class="g-cell" style="height:380px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+    if(g.length>8){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=8;i<g.length;i++)gHtml+=`<div class="g-cell" style="height:300px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+  }  let obraHtml='';
   if(p.obra&&p.obra.length){
     const carouselId='car-'+p.title.replace(/\s/g,'').toLowerCase();
     carouselImgs[carouselId]=p.obra;
