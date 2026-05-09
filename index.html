@@ -8,6 +8,7 @@
 <meta property="og:title" content="BZarq — Arquitectura y Desarrollos">
 <meta property="og:description" content="Estudio de arquitectura y desarrollos. Buenos Aires.">
 <meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="assets/BZARQ_Logo_Negro.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
 <style>
@@ -32,7 +33,7 @@ body { font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; background: 
 #nav { position: fixed; top: 0; left: 0; right: 0; height: 72px; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; transition: background 350ms, border-color 350ms; }
 #nav.solid { background: var(--white); border-bottom: 1px solid var(--g100); }
 #nav .logo { line-height: 0; cursor: pointer; }
-#nav .logo img { height: 26px; display: block; }
+#nav .logo img { height: 36px; display: block; }
 #nav .nav-links { display: flex; gap: 36px; align-items: center; }
 #nav .nav-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,0.85); cursor: pointer; transition: color 350ms; }
 #nav.solid .nav-links a { color: var(--ink); }
@@ -216,6 +217,23 @@ footer { background: var(--black); padding: 64px 80px 40px; }
   .stats-row { grid-template-columns: 1fr 1fr; }
   .foot-grid { grid-template-columns: 1fr; }
 }
+/* CAROUSEL */
+.carousel-wrap { position: relative; overflow: hidden; }
+.carousel-track { display: flex; transition: transform 400ms ease; }
+.carousel-slide { flex: 0 0 calc(33.333% - 3px); margin-right: 4px; position: relative; overflow: hidden; cursor: pointer; height: 280px; }
+.carousel-slide:last-child { margin-right: 0; }
+.carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 400ms ease; }
+.carousel-slide:hover img { transform: scale(1.04); }
+.carousel-slide figcaption { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 14px; background: linear-gradient(to top, rgba(0,0,0,0.72), transparent); font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.92); }
+.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.55); border: none; color: #fff; font-size: 20px; width: 44px; height: 44px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background 200ms; }
+.carousel-btn:hover { background: rgba(0,0,0,0.85); }
+.carousel-prev { left: 12px; }
+.carousel-next { right: 12px; }
+.carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+.carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--g200); border: none; cursor: pointer; padding: 0; transition: background 200ms; }
+.carousel-dot.on { background: var(--black); }
+@media (max-width: 960px) { .carousel-slide { flex: 0 0 calc(50% - 2px); height: 220px; } }
+@media (max-width: 600px) { .carousel-slide { flex: 0 0 100%; margin-right: 0; height: 240px; } }
 </style>
 </head>
 <body>
@@ -223,7 +241,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
 <!-- NAV -->
 <nav id="nav">
   <div class="logo" onclick="go('home')">
-    <img id="nav-logo" src="assets/BZARQ_Logo_Blanco.png" alt="BZarq">
+    <img id="nav-logo" src="assets/BZARQ_Logo_Blanco.svg" alt="BZarq">
   </div>
   <div class="nav-links">
     <a onclick="go('proyectos')">Proyectos</a>
@@ -415,7 +433,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
   <footer>
     <div class="foot-grid">
       <div>
-        <img src="assets/BZARQ_Logo_Blanco.png" alt="BZarq" style="height:22px;display:block;margin-bottom:20px;">
+        <img src="assets/BZARQ_Logo_Blanco.svg" alt="BZarq" style="height:32px;display:block;margin-bottom:20px;">
         <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;max-width:240px;">Estudio de arquitectura y desarrollos. Buenos Aires, Argentina.</p>
         <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:12px;">hola@estudiobz.com.ar</p>
       </div>
@@ -449,15 +467,15 @@ const PROJS = {
     gallery:[{src:'assets/projects/wellthomas/01-fachada.jpg',label:'Fachada — Vista exterior'},{src:'assets/projects/wellthomas/02-living-comedor.jpg',label:'Living comedor'},{src:'assets/projects/wellthomas/03-living-cocina.jpg',label:'Living con cocina integrada'},{src:'assets/projects/wellthomas/04-suite.jpg',label:'Suite principal'}],
     obra:[
       {src:'assets/projects/wellthomas/obra/01-terreno-debris.jpg',cap:'Excavacion · avance 80%',c:6,r:1},
-      {src:'assets/projects/wellthomas/obra/02-terreno-limpio.jpg',cap:'Llenado de losa PB·',c:6,r:1},
+      {src:'assets/projects/wellthomas/obra/02-terreno-limpio.jpg',cap:'Llenado de losa PB',c:6,r:1},
       {src:'assets/projects/wellthomas/obra/03-excavacion-inicio.jpg',cap:'Excavación · Inicio',c:4,r:2},
       {src:'assets/projects/wellthomas/obra/04-excavacion-equipo.jpg',cap:'Excavación · Equipo en obra',c:8,r:2},
       {src:'assets/projects/wellthomas/obra/05-excavacion-vista.jpg',cap:'Excavación · Vista general',c:6,r:1},
-      {src:'assets/projects/wellthomas/obra/06-submuracion.jpg',cap:'Excavación· Armado de bases + Submurales',c:6,r:1},
+      {src:'assets/projects/wellthomas/obra/06-submuracion.jpg',cap:'Excavación · Armado de bases + Submurales',c:6,r:1},
       {src:'assets/projects/wellthomas/obra/07-armadura-sotano.jpg',cap:'Excavación · Perfilado de tierra manual',c:4,r:2},
       {src:'assets/projects/wellthomas/obra/08-encofrado-trabajo.jpg',cap:'Picado de medianeras · Trabajo en altura',c:8,r:2},
       {src:'assets/projects/wellthomas/obra/09-encofrado-frente.jpg',cap:'Encofrado · Vista de frente',c:6,r:1},
-      {src:'assets/projects/wellthomas/obra/10-hormigonado-platea.jpg',cap:'Hormigonado · Colado hormigon los sobre primero',c:6,r:1},
+      {src:'assets/projects/wellthomas/obra/10-hormigonado-platea.jpg',cap:'Hormigonado · Colado hormigon losa sobre primero',c:6,r:1},
       {src:'assets/projects/wellthomas/obra/11-hormigonado-vereda.jpg',cap:'Demolicion · Retiro de cascotes',c:4,r:2},
       {src:'assets/projects/wellthomas/obra/12-encofrado-planta-baja.jpg',cap:'Mensura · Toma de medidas con lote libre',c:8,r:2},
       {src:'assets/projects/wellthomas/obra/13-fachada-calle.jpg',cap:'Fachada · Vista desde la calle',c:6,r:1},
@@ -503,7 +521,33 @@ function buildProj(p) {
   if(g.length>6){gHtml+=`<div class="g-grid" style="grid-template-columns:1fr 1.2fr;gap:2px;margin-top:2px;">`;for(let i=6;i<Math.min(8,g.length);i++)gHtml+=`<div class="g-cell" style="height:360px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
   if(g.length>8){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=8;i<g.length;i++)gHtml+=`<div class="g-cell" style="height:280px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
   let obraHtml='';
-  if(p.obra&&p.obra.length){const items=p.obra.map(o=>`<figure class="obra-fig" style="grid-column:span ${o.c};grid-row:span ${o.r};"><img src="${o.src}" alt="${o.cap}" loading="lazy"><figcaption class="obra-cap">${o.cap}</figcaption></figure>`).join('');obraHtml=`<section class="sec" style="background:var(--white);border-top:1px solid var(--g100);"><div class="max"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:32px;flex-wrap:wrap;gap:16px;"><div><span class="lbl">Avance de obra</span><h2 style="font-size:clamp(22px,2.5vw,32px);font-weight:700;color:var(--ink);letter-spacing:-0.02em;">${p.obraTitle}</h2></div><div style="font-size:12px;color:var(--g400);letter-spacing:0.04em;">Última actualización · próximamente</div></div><div class="obra-grid">${items}</div>${p.obraNote?`<p style="font-size:13px;color:var(--g500);margin-top:24px;line-height:1.6;">${p.obraNote}</p>`:''}</div></section>`;}
+  if(p.obra&&p.obra.length){
+    const carouselId='car-'+p.title.replace(/\s/g,'').toLowerCase();
+    carouselImgs[carouselId]=p.obra;
+    carouselPos[carouselId]=0;
+    const slides=p.obra.map((o,i)=>`
+      <figure class="carousel-slide" onclick="lbOpenCustom(${i},'${carouselId}')">
+        <img src="${o.src}" alt="${o.cap}" loading="lazy">
+        <figcaption>${o.cap}</figcaption>
+      </figure>`).join('');
+    const dots=p.obra.map((_,i)=>`<button class="carousel-dot${i===0?' on':''}" onclick="carouselGo('${carouselId}',${i})"></button>`).join('');
+    obraHtml=`
+      <section class="sec" style="background:var(--white);border-top:1px solid var(--g100);">
+        <div class="max">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:32px;flex-wrap:wrap;gap:16px;">
+            <div><span class="lbl">Avance de obra</span><h2 style="font-size:clamp(22px,2.5vw,32px);font-weight:700;color:var(--ink);letter-spacing:-0.02em;">${p.obraTitle}</h2></div>
+            <div style="font-size:12px;color:var(--g400);letter-spacing:0.04em;">Última actualización · próximamente</div>
+          </div>
+          <div class="carousel-wrap" id="${carouselId}">
+            <button class="carousel-btn carousel-prev" onclick="carouselStep('${carouselId}',-1)">←</button>
+            <div class="carousel-track" id="${carouselId}-track">${slides}</div>
+            <button class="carousel-btn carousel-next" onclick="carouselStep('${carouselId}',1)">→</button>
+          </div>
+          <div class="carousel-dots" id="${carouselId}-dots">${dots}</div>
+          ${p.obraNote?`<p style="font-size:13px;color:var(--g500);margin-top:20px;line-height:1.6;">${p.obraNote}</p>`:''}
+        </div>
+      </section>`;
+  }
   let brochureHtml='';
   if(p.brochure){brochureHtml=`<div class="brochure-strip"><div class="brochure-inner"><div><span class="lbl">Material descargable</span><h3 style="font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-0.01em;margin:0;">Brochure del proyecto</h3><p style="font-size:13px;color:var(--g500);margin-top:6px;">Información completa de unidades, planos y memoria descriptiva.</p></div><a href="${p.brochure}" download class="btn btn-dark">Descargar PDF ↓</a></div></div>`;}
   const cNode=document.getElementById('tpl-contact').content.cloneNode(true);
@@ -522,7 +566,7 @@ function buildProj(p) {
     <section style="padding:0;background:var(--offwhite);">${gHtml}<div style="padding:20px 80px 80px;"><span style="font-size:11px;color:var(--g400);letter-spacing:0.08em;">${g.length} imágenes — clic para ampliar</span></div></section>
     ${obraHtml}${brochureHtml}
     <div class="cta-dark"><div class="cta-inner"><div><div style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px;">¿Te interesa este proyecto?</div><h2 style="font-size:clamp(24px,3vw,40px);font-weight:700;color:var(--white);letter-spacing:-0.02em;margin:0;">${p.ctaTitle}</h2></div><a href="mailto:hola@estudiobz.com.ar" class="btn btn-light" style="flex-shrink:0;margin-left:40px;">Escribinos</a></div></div>
-    <div style="background:var(--black);border-top:1px solid rgba(255,255,255,0.08);padding:24px 80px;display:flex;justify-content:space-between;align-items:center;"><img src="assets/BZARQ_Logo_Blanco.png" alt="BZarq" style="height:22px;"><div style="display:flex;gap:32px;"><button onclick="go('proyectos')" style="font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;letter-spacing:0.06em;">← Volver a proyectos</button><a href="mailto:hola@estudiobz.com.ar" style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.06em;">hola@estudiobz.com.ar</a></div></div>
+    <div style="background:var(--black);border-top:1px solid rgba(255,255,255,0.08);padding:24px 80px;display:flex;justify-content:space-between;align-items:center;"><img src="assets/BZARQ_Logo_Blanco.svg" alt="BZarq" style="height:22px;"><div style="display:flex;gap:32px;"><button onclick="go('proyectos')" style="font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;letter-spacing:0.06em;">← Volver a proyectos</button><a href="mailto:hola@estudiobz.com.ar" style="font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;letter-spacing:0.06em;">hola@estudiobz.com.ar</a></div></div>
     ${cfHtml}`;
 }
 
@@ -553,14 +597,14 @@ function bindForm(form) {
 function navState() {
   const nav=document.getElementById('nav'),logo=document.getElementById('nav-logo');
   const isDark=cur==='home'||cur==='proyecto';
-  if(isDark){nav.classList.remove('solid');logo.src='assets/BZARQ_Logo_Blanco.png';}
-  else{nav.classList.add('solid');logo.src='assets/BZARQ_Logo_Negro.png';}
+  if(isDark){nav.classList.remove('solid');logo.src='assets/BZARQ_Logo_Blanco.svg';}
+  else{nav.classList.add('solid');logo.src='assets/BZARQ_Logo_Negro.svg';}
 }
 
 window.addEventListener('scroll',()=>{
   const nav=document.getElementById('nav'),logo=document.getElementById('nav-logo');
-  if(window.scrollY>80){nav.classList.add('solid');logo.src='assets/BZARQ_Logo_Negro.png';}
-  else if(cur==='home'||cur==='proyecto'){nav.classList.remove('solid');logo.src='assets/BZARQ_Logo_Blanco.png';}
+  if(window.scrollY>80){nav.classList.add('solid');logo.src='assets/BZARQ_Logo_Negro.svg';}
+  else if(cur==='home'||cur==='proyecto'){nav.classList.remove('solid');logo.src='assets/BZARQ_Logo_Blanco.svg';}
 });
 
 function toggleMenu(){document.getElementById('mob-menu').classList.toggle('open');}
@@ -575,6 +619,46 @@ function lbClose(){document.getElementById('lb').classList.remove('open');docume
 function lbNav(d){lbIdx=(lbIdx+d+lbImgs.length)%lbImgs.length;lbUpdate();}
 function lbUpdate(){const img=lbImgs[lbIdx];if(!img)return;document.getElementById('lb-img').src=img.src;document.getElementById('lb-img').alt=img.label;document.getElementById('lb-label').textContent=img.label;document.getElementById('lb-count').textContent=`${lbIdx+1} / ${lbImgs.length}`;}
 document.addEventListener('keydown',e=>{if(!document.getElementById('lb').classList.contains('open'))return;if(e.key==='Escape')lbClose();if(e.key==='ArrowRight')lbNav(1);if(e.key==='ArrowLeft')lbNav(-1);});
+
+// CAROUSEL
+const carouselPos={};
+const carouselImgs={};
+
+function carouselStep(id, dir) {
+  const track=document.getElementById(id+'-track');
+  if(!track) return;
+  const slides=track.querySelectorAll('.carousel-slide');
+  const visible=window.innerWidth<=600?1:window.innerWidth<=960?2:3;
+  const max=Math.max(0, slides.length-visible);
+  carouselPos[id]=(carouselPos[id]||0)+dir;
+  if(carouselPos[id]<0) carouselPos[id]=max;
+  if(carouselPos[id]>max) carouselPos[id]=0;
+  carouselUpdate(id, track, slides, visible);
+}
+
+function carouselGo(id, idx) {
+  const track=document.getElementById(id+'-track');
+  if(!track) return;
+  const slides=track.querySelectorAll('.carousel-slide');
+  const visible=window.innerWidth<=600?1:window.innerWidth<=960?2:3;
+  carouselPos[id]=Math.min(idx, Math.max(0, slides.length-visible));
+  carouselUpdate(id, track, slides, visible);
+}
+
+function carouselUpdate(id, track, slides, visible) {
+  const pct=100/visible;
+  track.style.transform=`translateX(-${carouselPos[id]*pct}%)`;
+  document.querySelectorAll(`#${id}-dots .carousel-dot`).forEach((d,i)=>{
+    d.classList.toggle('on', i===carouselPos[id]);
+  });
+}
+
+function lbOpenCustom(i, carId) {
+  const imgs=carouselImgs[carId];
+  if(!imgs) return;
+  lbImgs=imgs.map(o=>({src:o.src,label:o.cap}));
+  lbOpen(i);
+}
 
 injectShared(); navState();
 </script>
