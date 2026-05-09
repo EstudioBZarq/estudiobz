@@ -599,13 +599,13 @@ function buildProj(p) {
   const portrait = p.galleryPortrait || false;
   let gHtml='';
   if(portrait){
-    // Portrait photos: show 2 per row, tall cells
-    gHtml+=`<div class="g-full" style="height:75vh;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}" style="object-position:center top;"></div>`;
+    // Portrait photos: 2 per row, tall cells, show center of image
+    gHtml+=`<div class="g-full" style="height:80vh;background:#0A0A0A;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}" style="object-fit:contain;object-position:center;background:#0A0A0A;"></div>`;
     for(let i=1;i<g.length;i+=2){
       const hasNext = i+1 < g.length;
       gHtml+=`<div class="g-grid" style="grid-template-columns:${hasNext?'1fr 1fr':'1fr'};gap:2px;margin-top:2px;">`;
-      gHtml+=`<div class="g-cell" style="height:65vh;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}" style="object-position:center top;"></div>`;
-      if(hasNext) gHtml+=`<div class="g-cell" style="height:65vh;" onclick="lbOpen(${i+1})"><img src="${g[i+1].src}" alt="${g[i+1].label}" style="object-position:center top;"></div>`;
+      gHtml+=`<div class="g-cell" style="height:60vh;background:#111;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}" style="object-fit:contain;object-position:center;"></div>`;
+      if(hasNext) gHtml+=`<div class="g-cell" style="height:60vh;background:#111;" onclick="lbOpen(${i+1})"><img src="${g[i+1].src}" alt="${g[i+1].label}" style="object-fit:contain;object-position:center;"></div>`;
       gHtml+=`</div>`;
     }
   } else {
