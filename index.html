@@ -359,6 +359,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
         <div class="pcard" onclick="showProj('mexico4111')"><div class="pcard-img"><img src="assets/projects/mexico4111/01-fachada-general.jpg" alt="México 4111" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Desarrollo inmobiliario</span><span class="pcard-yr">2025</span></div><div class="pcard-title">México 4111</div></div></div>
         <div class="pcard" onclick="showProj('wellthomas')"><div class="pcard-img"><img src="assets/projects/wellthomas/01-fachada.jpg" alt="Well Thomas" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Desarrollo inmobiliario</span><span class="pcard-yr">2025</span></div><div class="pcard-title">Well Thomas</div></div></div>
         <div class="pcard" onclick="showProj('corrientes')"><div class="pcard-img"><img src="assets/projects/corrientes/01.jpg" alt="Reforma Av. Corrientes" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Remodelación de interiores</span><span class="pcard-yr">2024</span></div><div class="pcard-title">Reforma Av. Corrientes</div></div></div>
+        <div class="pcard" onclick="showProj('wise')"><div class="pcard-img"><img src="assets/projects/wise/01-recepcion.jpg" alt="Wise Odontología" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Arquitectura comercial</span><span class="pcard-yr">2025</span></div><div class="pcard-title">Wise Odontología</div></div></div>
       </div>
     </div>
   </section>
@@ -390,6 +391,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
         <div class="pcard" data-cat="desarrollo" onclick="showProj('mexico4111')"><div class="pcard-img"><img src="assets/projects/mexico4111/01-fachada-general.jpg" alt="México 4111" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Desarrollo inmobiliario</span><span class="pcard-yr">2025</span></div><div class="pcard-title">México 4111</div></div></div>
         <div class="pcard" data-cat="desarrollo" onclick="showProj('wellthomas')"><div class="pcard-img"><img src="assets/projects/wellthomas/01-fachada.jpg" alt="Well Thomas" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Desarrollo inmobiliario</span><span class="pcard-yr">2025</span></div><div class="pcard-title">Well Thomas</div></div></div>
         <div class="pcard" data-cat="remodelacion" onclick="showProj('corrientes')"><div class="pcard-img"><img src="assets/projects/corrientes/01.jpg" alt="Reforma Av. Corrientes" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Remodelación de interiores</span><span class="pcard-yr">2024</span></div><div class="pcard-title">Reforma Av. Corrientes</div></div></div>
+        <div class="pcard" data-cat="comercial" onclick="showProj('wise')"><div class="pcard-img"><img src="assets/projects/wise/01-recepcion.jpg" alt="Wise Odontología" loading="lazy"></div><div class="pcard-info"><div class="pcard-meta"><span class="pcard-cat">Arquitectura comercial</span><span class="pcard-yr">2025</span></div><div class="pcard-title">Wise Odontología</div></div></div>
       </div>
     </div></section>
     <div id="inc-f-proyectos"></div>
@@ -521,6 +523,44 @@ const PROJS = {
     ],
     obraTitle:'Ejecución de estructura de hormigón', obraNote:'Próximas etapas: mamposterías y cerramientos.',
     brochure:'assets/projects/wellthomas/brochure.pdf', ctaTitle:'Consultanos sobre Well Thomas',
+  },
+  wise: {
+    title:'Wise Odontología', eyebrow:'Arquitectura comercial · Caballito, CABA',
+    hero:'assets/projects/wise/01-recepcion.jpg',
+    ficha:[
+      {k:'Proyecto', v:'Wise Odontología y Estética'},
+      {k:'Ubicación', v:'Av. Gaona, Caballito, CABA'},
+      {k:'Tipología', v:'Arquitectura comercial — Clínica'},
+      {k:'Superficie', v:'200 m²'},
+      {k:'Año', v:'2025'},
+      {k:'Estado', v:'Obra terminada'},
+      {k:'Estudio', v:'BZarq — Zajac · Brzezinski'},
+    ],
+    quote:'"Un espacio clínico donde la arquitectura genera calma antes de que empiece la atención."',
+    desc:[
+      'El proyecto consistió en la transformación integral de una planta libre de 200 m² en una clínica de odontología y estética de primer nivel. El desafío fue resolver la complejidad técnica del programa — cuatro consultorios, sala de rayos X, sala de esterilización y áreas de circulación — sin resignar la calidad espacial que la marca exigía.',
+      'La recepción se convierte en el gesto central del proyecto: una curva de madera de roble con iluminación cálida perimetral define el núcleo de circulación y separa el área pública de los consultorios. El pasillo de acceso a los boxes, revestido íntegramente en tableros de madera con iluminación indirecta en cumbrera, transforma un corredor funcional en una experiencia de transición deliberada.',
+    ],
+    gallery:[
+      {src:'assets/projects/wise/01-recepcion.jpg', label:'Recepción — Vista general'},
+      {src:'assets/projects/wise/09-recepcion-cenital.jpg', label:'Recepción — Iluminación cenital'},
+      {src:'assets/projects/wise/06-recepcion-luz.jpg', label:'Recepción — Detalle luminaria'},
+      {src:'assets/projects/wise/10-recepcion-pasillo.jpg', label:'Recepción y acceso a consultorios'},
+      {src:'assets/projects/wise/02-pasillo-consultorios.jpg', label:'Pasillo — Consultorios 1 y 2'},
+      {src:'assets/projects/wise/03-pasillo-rx.jpg', label:'Pasillo — Acceso a Sala de RX'},
+      {src:'assets/projects/wise/04-consultorio-equipado.jpg', label:'Consultorio equipado'},
+      {src:'assets/projects/wise/05-consultorio-4.jpg', label:'Consultorio 4 — Vista desde el pasillo'},
+      {src:'assets/projects/wise/07-pasillo-iluminacion.jpg', label:'Pasillo interior — Iluminación lineal'},
+      {src:'assets/projects/wise/08-escalera.jpg', label:'Escalera — Detalle constructivo'},
+    ],
+    obra:[
+      {src:'assets/projects/wise/obra-01.jpg', cap:'Planta libre · Estado inicial', c:6, r:1},
+      {src:'assets/projects/wise/obra-02.jpg', cap:'En construcción · Revestimiento madera', c:6, r:1},
+      {src:'assets/projects/wise/obra-03.jpg', cap:'En construcción · Tabiquería', c:6, r:1},
+      {src:'assets/projects/wise/obra-04.jpg', cap:'En construcción · Avance general', c:6, r:1},
+    ],
+    obraTitle:'Obra terminada — 2025', obraNote:'Proyecto entregado en 2025. Superficie cubierta: 200 m².',
+    brochure:null, ctaTitle:'Consultanos sobre proyectos similares',
   },
   corrientes: {
     title:'Reforma Av. Corrientes', eyebrow:'Remodelación residencial · CABA',
