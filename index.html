@@ -595,7 +595,6 @@ function showProj(slug) {
 function buildProj(p) {
   const g=p.gallery;
   const fichaRows=p.ficha.map(f=>`<div class="ficha-row"><div class="ficha-k">${f.k}</div><div class="ficha-v">${f.v}</div></div>`).join('');
-  const g=p.gallery;
   let gHtml=`<div class="g-full" style="height:60vh;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}"></div>`;
   if(g.length>1){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=1;i<Math.min(4,g.length);i++)gHtml+=`<div class="g-cell" style="height:320px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
   if(g.length>4){gHtml+=`<div class="g-grid" style="grid-template-columns:1.2fr 1fr;gap:2px;margin-top:2px;">`;for(let i=4;i<Math.min(6,g.length);i++)gHtml+=`<div class="g-cell" style="height:400px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
