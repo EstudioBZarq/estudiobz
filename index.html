@@ -595,27 +595,12 @@ function showProj(slug) {
 function buildProj(p) {
   const g=p.gallery;
   const fichaRows=p.ficha.map(f=>`<div class="ficha-row"><div class="ficha-k">${f.k}</div><div class="ficha-v">${f.v}</div></div>`).join('');
-  // Gallery — layout adapts to photo orientation hint (p.galleryPortrait = true for vertical photos)
-  const portrait = p.galleryPortrait || false;
-  let gHtml='';
-  if(portrait){
-    // Portrait photos: 2 per row, tall cells, show center of image
-    gHtml+=`<div class="g-full" style="height:80vh;background:#0A0A0A;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}" style="object-fit:contain;object-position:center;background:#0A0A0A;"></div>`;
-    for(let i=1;i<g.length;i+=2){
-      const hasNext = i+1 < g.length;
-      gHtml+=`<div class="g-grid" style="grid-template-columns:${hasNext?'1fr 1fr':'1fr'};gap:2px;margin-top:2px;">`;
-      gHtml+=`<div class="g-cell" style="height:60vh;background:#111;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}" style="object-fit:contain;object-position:center;"></div>`;
-      if(hasNext) gHtml+=`<div class="g-cell" style="height:60vh;background:#111;" onclick="lbOpen(${i+1})"><img src="${g[i+1].src}" alt="${g[i+1].label}" style="object-fit:contain;object-position:center;"></div>`;
-      gHtml+=`</div>`;
-    }
-  } else {
-    // Landscape photos: original layout
-    gHtml=`<div class="g-full" style="height:60vh;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}"></div>`;
-    if(g.length>1){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=1;i<Math.min(4,g.length);i++)gHtml+=`<div class="g-cell" style="height:320px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
-    if(g.length>4){gHtml+=`<div class="g-grid" style="grid-template-columns:1.2fr 1fr;gap:2px;margin-top:2px;">`;for(let i=4;i<Math.min(6,g.length);i++)gHtml+=`<div class="g-cell" style="height:400px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
-    if(g.length>6){gHtml+=`<div class="g-grid" style="grid-template-columns:1fr 1.2fr;gap:2px;margin-top:2px;">`;for(let i=6;i<Math.min(8,g.length);i++)gHtml+=`<div class="g-cell" style="height:380px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
-    if(g.length>8){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=8;i<g.length;i++)gHtml+=`<div class="g-cell" style="height:300px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
-  }  let obraHtml='';
+  const g=p.gallery;
+  let gHtml=`<div class="g-full" style="height:60vh;" onclick="lbOpen(0)"><img src="${g[0].src}" alt="${g[0].label}"></div>`;
+  if(g.length>1){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=1;i<Math.min(4,g.length);i++)gHtml+=`<div class="g-cell" style="height:320px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+  if(g.length>4){gHtml+=`<div class="g-grid" style="grid-template-columns:1.2fr 1fr;gap:2px;margin-top:2px;">`;for(let i=4;i<Math.min(6,g.length);i++)gHtml+=`<div class="g-cell" style="height:400px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+  if(g.length>6){gHtml+=`<div class="g-grid" style="grid-template-columns:1fr 1.2fr;gap:2px;margin-top:2px;">`;for(let i=6;i<Math.min(8,g.length);i++)gHtml+=`<div class="g-cell" style="height:380px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}
+  if(g.length>8){gHtml+=`<div class="g-grid" style="grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;">`;for(let i=8;i<g.length;i++)gHtml+=`<div class="g-cell" style="height:300px;" onclick="lbOpen(${i})"><img src="${g[i].src}" alt="${g[i].label}"></div>`;gHtml+=`</div>`;}  let obraHtml='';
   if(p.obra&&p.obra.length){
     const carouselId='car-'+p.title.replace(/\s/g,'').toLowerCase();
     carouselImgs[carouselId]=p.obra;
