@@ -451,8 +451,7 @@ footer { background: var(--black); padding: 64px 80px 40px; }
           <div class="cinfo-row"><span class="cinfo-k">Ubicación</span><span class="cinfo-v">Buenos Aires, Argentina</span></div>
         </div>
       </div>
-      <!-- *** REEMPLAZÁ "FORMSPREE_ID" con tu ID de formspree.io *** -->
-      <form class="bzform" action="https://formspree.io/f/FORMSPREE_ID" method="POST" style="display:flex;flex-direction:column;gap:16px;">
+      <form class="bzform" action="https://formspree.io/f/mbdwplbl" method="POST" style="display:flex;flex-direction:column;gap:16px;">
         <div class="field-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div class="field"><label>Nombre</label><input type="text" name="nombre" placeholder="Juan García" required></div>
           <div class="field"><label>Email</label><input type="email" name="email" placeholder="juan@ejemplo.com" required></div>
@@ -663,7 +662,7 @@ function bindForm(form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     const action=form.getAttribute('action');
-    if(action.includes('FORMSPREE_ID')){alert('Para activar el formulario, seguí las instrucciones de Formspree.');return;}
+    if(!action||action.includes('localhost')){alert('Error en configuración del formulario.');return;}
     const btn=form.querySelector('[type=submit]');
     btn.textContent='Enviando...'; btn.disabled=true;
     try {
